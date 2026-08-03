@@ -2,70 +2,56 @@
 ### World's Most Advanced Personal Mission Control Operating System
 **Engineered & Designed by [Shyam Sundar](https://github.com/Shyamsundar2203)**
 
+[![Live Demo](https://img.shields.io/badge/LIVE_DEMO-dhruv--tara.vercel.app-00D4FF?style=for-the-badge&logo=vercel)](https://dhruv-tara.vercel.app/)
 [![Next.js](https://img.shields.io/badge/Next.js-16.2-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v4-06B6D4?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com/)
 [![Three.js](https://img.shields.io/badge/Three.js-WebGL-black?style=for-the-badge&logo=three.js)](https://threejs.org/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
+[![Gemini AI](https://img.shields.io/badge/Gemini_AI-1.5_Flash-8E7CC3?style=for-the-badge&logo=google)](https://aistudio.google.com/)
 
-> *"Not a simple portfolio. Not a CRUD project. Operation Dhruv Tara is a sovereign, single-pane-of-glass AI Life Operating System built to manage personal growth, AI career, projects, habits, finances, health, and Mission 2030."*
-
----
-
-## 🚀 Live Demo
-
-🌐 **Public Deployment**: [dhruv-tara.vercel.app](https://dhruv-tara.vercel.app) *(Free Cloud Host)*
+> *"Not a portfolio. Not a CRUD app. Operation Dhruv Tara is a sovereign, single-pane-of-glass AI Life Operating System built to manage personal growth, AI career, projects, habits, finances, health, and Mission 2030."*
 
 ---
 
-## 🛠️ Design System & Tech Stack
+## 🌐 Public Live Link
 
-- **Core**: Next.js 16 (App Router + Turbopack), React 19, TypeScript 5
-- **3D Graphics & Animations**: Three.js (WebGL Neural Background), Framer Motion, GSAP
-- **Styling**: Vanilla CSS Variables, Glassmorphism Backdrop Blurs, Custom Dark Tokens
-- **AI Core**: Google Gemini 1.5 Flash API (100% Free Tier) with 9 Custom AI Personalities
-- **State Management**: Zustand with LocalStorage Persistence
-- **UI Components**: Interactive Pomodoro SVG Ring, Life Score Gauge, 5-Column Drag Kanban, 52-Week GitHub Heatmap, Spaced-Repetition Flashcard Flipper
+🚀 **Access Live App**: **[https://dhruv-tara.vercel.app/](https://dhruv-tara.vercel.app/)**
 
 ---
 
-## 🗂️ The 15 Core Modules
+## ✨ System Architecture & Highlights
 
-| Module | Route | Key Features |
-|--------|-------|--------------|
-| **Mission Control** | `/dashboard` | Life score gauge, Pomodoro timer, Habits, Priority tasks, State sliders |
-| **Mission Canvas** | `/dashboard/mission` | 2030 Countdown timer, Vision & Purpose editor, Milestone tree, 52-week activity heatmap |
-| **Daily Control** | `/dashboard/daily` | Morning MITs, Mood/Energy sliders, Daily Journal, Evening Reflection |
-| **Task Operations** | `/dashboard/tasks` | 5-Column Kanban Board, List View, Priority tags, Search, Add task modal |
+- **Tesla UI & Apple Polish**: Dark theme (`#040408`), glassmorphism backdrop filters, custom cursor, 60fps animations.
+- **Three.js Neural Canvas**: 600 WebGL particle nodes with mouse parallax and additive blending.
+- **9 Specialized AI Team Members**: Harvey Specter (Strategy), Agni (AI Engineering), Drishti (Social Branding), Arth (Finance), Kawach (Health), Niti (Discipline), Yugnayak (Vision), Sasta (Communication), Abhishek (Execution).
+- **Client-Side State Engine**: Zustand store with LocalStorage persistence.
+- **Command Palette (⌘K)**: Global search across all commands, modules, and AI team members.
+
+---
+
+## 🗂️ 15 Core Modules
+
+| Module | URL Path | Key Capabilities |
+|--------|----------|------------------|
+| **Mission Control** | `/dashboard` | Life Score circular gauge, Pomodoro timer, Habits, Priority tasks, State sliders |
+| **Mission Canvas** | `/dashboard/mission` | 2030 Countdown timer, Vision & Purpose editor, Milestone tree, Activity heatmap |
+| **Daily Control** | `/dashboard/daily` | Morning MITs, Mood/Energy 1-10 sliders, Focus Markdown Journal, Evening Reflection |
+| **Task Operations** | `/dashboard/tasks` | 5-Column Kanban Board & List View, Priority tags, Search, Add task modal |
 | **Learning Hub** | `/dashboard/learning` | 3D Flip Flashcards, Spaced repetition, Deck creation |
-| **AI Engineering** | `/dashboard/ai-engineering` | Interactive Skill Tree (Python → PyTorch → LLMs → Agents & MLOps) |
+| **AI Engineering** | `/dashboard/ai-engineering` | Interactive Skill Tree (Python → PyTorch → LLMs → Autonomous Agents & MLOps) |
 | **Project Hub** | `/dashboard/projects` | Project Canvas, GitHub repo links, Tech stack badges, Progress meters |
 | **Career Hub** | `/dashboard/career` | Job application Kanban pipeline (Wishlist → Interview → Offer), Salary tracking |
 | **Business Hub** | `/dashboard/business` | Startup Lean Canvas builder (Problem, Solution, Target Market, Revenue) |
 | **Finance Engine** | `/dashboard/finance` | Income & Expense ledger, Net balance summary, Transaction logger |
 | **Fitness Tracker** | `/dashboard/fitness` | Exercise log, Sets/Reps/Weight tracking, Progressive overload |
 | **Knowledge Vault** | `/dashboard/knowledge` | Second Brain Markdown notes editor, Tag search, Split-screen view |
-| **Analytics Engine** | `/dashboard/analytics` | Task velocity, Milestone completion rates, Activity heatmaps |
-| **Settings Control** | `/dashboard/settings` | Live parameter editing, Gemini API key config, JSON data backup |
-| **AI Team Hub** | `/team` & `/team/[id]` | 9 specialized AI advisors (Harvey, Agni, Drishti, etc.) with custom prompts & memory |
+| **Analytics Engine** | `/dashboard/analytics` | Task velocity, Milestone completion rates, 52-week consistency heatmap |
+| **Settings Control** | `/dashboard/settings` | Live parameter editing, Gemini API key config, JSON data backup export |
+| **AI Team Hub** | `/team` & `/team/[id]` | Individual Team Profiles & Real Gemini 1.5 Flash AI Chat with memory |
 
 ---
 
-## 🤖 Team Dhruv Tara (AI Advisors)
-
-1. **Harvey Specter** — Strategy & Decision Architect
-2. **Drishti** — Personal Branding, Social Media & Internships
-3. **Agni** — AI Engineering & Coding Mastery
-4. **Arth** — Financial Strategist & Wealth Intelligence
-5. **Kawach** — Health, Fitness & Energy Guardian
-6. **Niti** — Discipline & Routine Systems
-7. **Yugnayak** — Long-Term Vision & Mindset Guide
-8. **Sasta** — Communication & Leadership Coach
-9. **Abhishek** — Execution & Product Shipping Engine
-
----
-
-## ⚡ Quick Start (Local Run)
+## 💻 Local Setup Instructions
 
 ```bash
 # 1. Clone repository
@@ -75,7 +61,7 @@ cd Dhruv-Tara
 # 2. Install dependencies
 npm install
 
-# 3. Launch development server
+# 3. Launch local development server
 npm run dev
 ```
 
@@ -83,17 +69,18 @@ Open `http://localhost:3000` in your browser.
 
 ---
 
-## 🔑 AI Setup (Free API Key)
+## 🔑 AI Key Setup (Free)
 
-1. Visit [Google AI Studio](https://aistudio.google.com) and generate a free API key.
-2. Open the app, go to **Settings** (`/dashboard/settings`), and paste your API key.
+1. Get a free API key at [Google AI Studio](https://aistudio.google.com).
+2. Open the app, go to **Settings** (`/dashboard/settings`), and paste your key.
 
 ---
 
-## 👨‍💻 Created & Maintained By
+## 👤 Author & Owner
 
 **Shyam Sundar**
 - GitHub: [@Shyamsundar2203](https://github.com/Shyamsundar2203)
+- Live App: [https://dhruv-tara.vercel.app/](https://dhruv-tara.vercel.app/)
 - Mission: Building world-class AI products & dominating the 2030 horizon.
 
 ---
