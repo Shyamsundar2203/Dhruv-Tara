@@ -19,14 +19,14 @@ export const metadata: Metadata = {
   authors: [{ name: "Shyam Sundar", url: "https://github.com/Shyamsundar2203" }],
   creator: "Shyam Sundar",
   publisher: "Shyam Sundar",
-  metadataBase: new URL("https://dhruv-tara.vercel.app"),
+  metadataBase: new URL("https://dhruv-tara-one.vercel.app"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
     title: "Operation Dhruv Tara | AI Mission Control OS",
     description: "The world's most advanced personal AI Life Operating System by Shyam Sundar. Tesla UI + JARVIS + Notion + Linear + GitHub inside one app.",
-    url: "https://dhruv-tara.vercel.app",
+    url: "https://dhruv-tara-one.vercel.app",
     siteName: "Operation Dhruv Tara",
     images: [
       {
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#040408",
+  themeColor: "#00ff88",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -106,6 +106,7 @@ export default function RootLayout({
                 "name": "Shyam Sundar",
                 "url": "https://github.com/Shyamsundar2203",
               },
+              "url": "https://dhruv-tara-one.vercel.app",
               "description":
                 "AI-powered sovereign personal Mission Control Operating System for managing career, AI skills, health, finance, and long-term mission goals.",
             }),

@@ -2,29 +2,29 @@
 ### World's Most Advanced Personal Mission Control Operating System
 **Engineered & Designed by [Shyam Sundar](https://github.com/Shyamsundar2203)**
 
-[![Live Demo](https://img.shields.io/badge/LIVE_DEMO-dhruv--tara.vercel.app-00D4FF?style=for-the-badge&logo=vercel)](https://dhruv-tara.vercel.app/)
+[![Live Demo](https://img.shields.io/badge/LIVE_DEMO-dhruv--tara--one.vercel.app-00FF88?style=for-the-badge&logo=vercel&logoColor=black)](https://dhruv-tara-one.vercel.app/)
 [![Next.js](https://img.shields.io/badge/Next.js-16.2-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v4-06B6D4?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com/)
-[![Three.js](https://img.shields.io/badge/Three.js-WebGL-black?style=for-the-badge&logo=three.js)](https://threejs.org/)
+[![Three.js](https://img.shields.io/badge/Three.js-Matrix_Green-00FF88?style=for-the-badge&logo=three.js)](https://threejs.org/)
 [![Gemini AI](https://img.shields.io/badge/Gemini_AI-1.5_Flash-8E7CC3?style=for-the-badge&logo=google)](https://aistudio.google.com/)
 
-> *"Not a portfolio. Not a CRUD app. Operation Dhruv Tara is a sovereign, single-pane-of-glass AI Life Operating System built to manage personal growth, AI career, projects, habits, finances, health, and Mission 2030."*
+> *"Not a simple portfolio. Not a CRUD project. Operation Dhruv Tara is a sovereign, single-pane-of-glass AI Life Operating System built to manage personal growth, AI career, projects, habits, finances, health, and Mission 2030."*
 
 ---
 
-## 🌐 Public Live Link
+## 🌐 Public Live Application Link
 
-🚀 **Access Live App**: **[https://dhruv-tara.vercel.app/](https://dhruv-tara.vercel.app/)**
+🚀 **Access Official Live App**: **[https://dhruv-tara-one.vercel.app/](https://dhruv-tara-one.vercel.app/)**
 
 ---
 
 ## ✨ System Architecture & Highlights
 
-- **Tesla UI & Apple Polish**: Dark theme (`#040408`), glassmorphism backdrop filters, custom cursor, 60fps animations.
-- **Three.js Neural Canvas**: 600 WebGL particle nodes with mouse parallax and additive blending.
+- **Matrix Cyberpunk & Emerald Green UI**: Dark space theme (`#020b06`), neon emerald green accents (`#00ff88`), glassmorphism backdrop filters, custom cursor, 60fps GPU-accelerated animations.
+- **Three.js Neon Particle Canvas**: 600 WebGL particle nodes in emerald & cyan with mouse parallax and additive blending.
 - **9 Specialized AI Team Members**: Harvey Specter (Strategy), Agni (AI Engineering), Drishti (Social Branding), Arth (Finance), Kawach (Health), Niti (Discipline), Yugnayak (Vision), Sasta (Communication), Abhishek (Execution).
-- **Client-Side State Engine**: Zustand store with LocalStorage persistence.
+- **Client-Side State Engine**: Zustand store with LocalStorage persistence across all 15 modules.
 - **Command Palette (⌘K)**: Global search across all commands, modules, and AI team members.
 
 ---
@@ -80,7 +80,7 @@ Open `http://localhost:3000` in your browser.
 
 **Shyam Sundar**
 - GitHub: [@Shyamsundar2203](https://github.com/Shyamsundar2203)
-- Live App: [https://dhruv-tara.vercel.app/](https://dhruv-tara.vercel.app/)
+- Official Live App: [https://dhruv-tara-one.vercel.app/](https://dhruv-tara-one.vercel.app/)
 - Mission: Building world-class AI products & dominating the 2030 horizon.
 
 ---

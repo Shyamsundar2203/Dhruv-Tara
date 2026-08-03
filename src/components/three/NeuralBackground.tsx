@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
 export default function NeuralBackground() {
@@ -37,15 +37,15 @@ export default function NeuralBackground() {
     renderer.setClearColor(0x000000, 0);
     mountRef.current.appendChild(renderer.domElement);
 
-    // ── Particle System ───────────────────────────────────────
+    // ── Particle System (Neon Emerald & Cyber Green) ─────────
     const PARTICLE_COUNT = 600;
     const positions = new Float32Array(PARTICLE_COUNT * 3);
     const colors = new Float32Array(PARTICLE_COUNT * 3);
     const sizes = new Float32Array(PARTICLE_COUNT);
 
-    const color1 = new THREE.Color(0x5b4dff); // primary
-    const color2 = new THREE.Color(0x00d4ff); // accent
-    const color3 = new THREE.Color(0xa855f7); // purple
+    const color1 = new THREE.Color(0x00ff88); // Neon Green
+    const color2 = new THREE.Color(0x00d4ff); // Electric Cyan
+    const color3 = new THREE.Color(0x00e676); // Emerald
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       positions[i * 3]     = (Math.random() - 0.5) * 20;
@@ -72,7 +72,7 @@ export default function NeuralBackground() {
       size: 0.05,
       vertexColors: true,
       transparent: true,
-      opacity: 0.7,
+      opacity: 0.75,
       blending: THREE.AdditiveBlending,
       sizeAttenuation: true,
     });
@@ -93,7 +93,7 @@ export default function NeuralBackground() {
         const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
 
         if (dist < CONNECTION_DIST) {
-          const alpha = (1 - dist / CONNECTION_DIST) * 0.25;
+          const alpha = (1 - dist / CONNECTION_DIST) * 0.3;
           linePositions.push(
             positions[i*3], positions[i*3+1], positions[i*3+2],
             positions[j*3], positions[j*3+1], positions[j*3+2]
@@ -113,7 +113,7 @@ export default function NeuralBackground() {
     const lineMat = new THREE.LineBasicMaterial({
       vertexColors: true,
       transparent: true,
-      opacity: 0.4,
+      opacity: 0.45,
       blending: THREE.AdditiveBlending,
     });
 
@@ -141,9 +141,8 @@ export default function NeuralBackground() {
       lines.rotation.y     = t * 0.05 + mouseX * 0.3;
       lines.rotation.x     = mouseY * 0.2;
 
-      // Pulse opacity
       (particleMat as THREE.PointsMaterial).opacity =
-        0.5 + Math.sin(t * 0.8) * 0.2;
+        0.55 + Math.sin(t * 0.8) * 0.25;
 
       renderer.render(scene, camera);
     };

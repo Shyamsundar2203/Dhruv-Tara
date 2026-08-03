@@ -3,22 +3,22 @@
 @import "tailwindcss";
 
 /* ============================================================
-   DESIGN SYSTEM TOKENS
+   DESIGN SYSTEM TOKENS — NEON MATRIX EMERALD GREEN THEME
    ============================================================ */
 :root {
-  /* Primary: Cosmic Purple-Blue */
-  --primary-50:  #f0f0ff;
-  --primary-100: #e0e0ff;
-  --primary-200: #c7c7ff;
-  --primary-300: #a5a0ff;
-  --primary-400: #7c72ff;
-  --primary-500: #5b4dff;
-  --primary-600: #4430f5;
-  --primary-700: #3a20e0;
-  --primary-800: #301cb5;
-  --primary-900: #2b1a90;
+  /* Primary: Neon Emerald & Matrix Green */
+  --primary-50:  #e6fffa;
+  --primary-100: #b2f5ea;
+  --primary-200: #81e6d9;
+  --primary-300: #4fd1c5;
+  --primary-400: #00ff88;  /* Brand Neon Green */
+  --primary-500: #00e676;  /* Brand Main Emerald */
+  --primary-600: #00c853;
+  --primary-700: #00a843;
+  --primary-800: #008a36;
+  --primary-900: #006b29;
 
-  /* Accent: Electric Cyan */
+  /* Accent: Electric Cyan & Mint */
   --accent-300: #67e8ff;
   --accent-400: #00d4ff;
   --accent-500: #00b8e6;
@@ -34,22 +34,22 @@
   --danger:  #ff3864;
   --info:    #00d4ff;
 
-  /* Backgrounds */
-  --bg-base:    #040408;
-  --bg-surface: #08080f;
-  --bg-elevated:#0f0f1c;
-  --bg-overlay: #14142a;
+  /* Backgrounds: Deep Cyber Emerald Space */
+  --bg-base:    #020b06;
+  --bg-surface: #06150c;
+  --bg-elevated:#0b2014;
+  --bg-overlay: #102a1b;
 
   /* Text */
-  --text-primary:   #eeeeff;
-  --text-secondary: #8888bb;
-  --text-muted:     #44446a;
+  --text-primary:   #eefff6;
+  --text-secondary: #88c9a3;
+  --text-muted:     #3c7052;
 
   /* Borders */
-  --border-subtle:  rgba(255,255,255,0.04);
-  --border-normal:  rgba(255,255,255,0.08);
-  --border-strong:  rgba(255,255,255,0.16);
-  --border-primary: rgba(91,77,255,0.3);
+  --border-subtle:  rgba(0,255,136,0.06);
+  --border-normal:  rgba(0,255,136,0.12);
+  --border-strong:  rgba(0,255,136,0.25);
+  --border-primary: rgba(0,255,136,0.4);
 
   /* Sidebar */
   --sidebar-width: 240px;
@@ -91,19 +91,20 @@ body {
 .custom-cursor {
   width: 12px;
   height: 12px;
-  background: var(--primary-500);
+  background: var(--primary-400);
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
   z-index: 9999;
   transition: transform 0.1s ease, opacity 0.2s ease;
   mix-blend-mode: screen;
+  box-shadow: 0 0 10px var(--primary-400);
 }
 
 .custom-cursor-ring {
   width: 36px;
   height: 36px;
-  border: 1px solid rgba(91,77,255,0.5);
+  border: 1px solid rgba(0,255,136,0.5);
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
@@ -112,22 +113,22 @@ body {
 }
 
 /* ============================================================
-   GLASSMORPHISM UTILITIES
+   GLASSMORPHISM UTILITIES — EMERALD EDITION
    ============================================================ */
 .glass {
-  background: rgba(8, 8, 15, 0.6);
+  background: rgba(6, 21, 12, 0.65);
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.07);
-  box-shadow: 0 8px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.07);
+  border: 1px solid rgba(0,255,136,0.1);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(0,255,136,0.1);
 }
 
 .glass-primary {
-  background: rgba(91,77,255,0.1);
+  background: rgba(0,255,136,0.08);
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(91,77,255,0.22);
-  box-shadow: 0 0 40px rgba(91,77,255,0.15), inset 0 1px 0 rgba(91,77,255,0.1);
+  border: 1px solid rgba(0,255,136,0.25);
+  box-shadow: 0 0 40px rgba(0,255,136,0.2), inset 0 1px 0 rgba(0,255,136,0.15);
 }
 
 .glass-accent {
@@ -149,15 +150,12 @@ body {
 /* ============================================================
    GLOW EFFECTS
    ============================================================ */
-.glow-primary  { box-shadow: 0 0 30px rgba(91,77,255,0.35); }
+.glow-primary  { box-shadow: 0 0 30px rgba(0,255,136,0.4); }
 .glow-accent   { box-shadow: 0 0 30px rgba(0,212,255,0.3); }
 .glow-gold     { box-shadow: 0 0 30px rgba(255,215,0,0.3); }
-.glow-success  { box-shadow: 0 0 30px rgba(0,255,136,0.3); }
-.glow-danger   { box-shadow: 0 0 30px rgba(255,56,100,0.3); }
 
-.text-glow-primary { text-shadow: 0 0 20px rgba(91,77,255,0.6); }
+.text-glow-primary { text-shadow: 0 0 20px rgba(0,255,136,0.6); }
 .text-glow-accent  { text-shadow: 0 0 20px rgba(0,212,255,0.6); }
-.text-glow-gold    { text-shadow: 0 0 20px rgba(255,215,0,0.6); }
 
 /* ============================================================
    TYPOGRAPHY UTILITIES
@@ -187,16 +185,16 @@ body {
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: rgba(91,77,255,0.3);
+  background: rgba(0,255,136,0.3);
   border-radius: 2px;
 }
-::-webkit-scrollbar-thumb:hover { background: rgba(91,77,255,0.5); }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,255,136,0.6); }
 
 /* ============================================================
    SELECTION
    ============================================================ */
 ::selection {
-  background: rgba(91,77,255,0.3);
+  background: rgba(0,255,136,0.3);
   color: var(--text-primary);
 }
 
@@ -204,8 +202,8 @@ body {
    ANIMATIONS
    ============================================================ */
 @keyframes pulse-glow {
-  0%, 100% { opacity: 1; box-shadow: 0 0 20px rgba(91,77,255,0.3); }
-  50%       { opacity: 0.8; box-shadow: 0 0 40px rgba(91,77,255,0.6); }
+  0%, 100% { opacity: 1; box-shadow: 0 0 20px rgba(0,255,136,0.3); }
+  50%       { opacity: 0.8; box-shadow: 0 0 40px rgba(0,255,136,0.7); }
 }
 
 @keyframes float {
@@ -228,13 +226,6 @@ body {
   to   { transform: rotate(360deg); }
 }
 
-@keyframes data-stream {
-  0%   { opacity: 0; transform: translateY(-10px); }
-  20%  { opacity: 1; }
-  80%  { opacity: 1; }
-  100% { opacity: 0; transform: translateY(10px); }
-}
-
 @keyframes ping-ring {
   0%   { transform: scale(1); opacity: 0.8; }
   100% { transform: scale(2.5); opacity: 0; }
@@ -243,11 +234,6 @@ body {
 .animate-pulse-glow    { animation: pulse-glow 3s ease-in-out infinite; }
 .animate-float         { animation: float 4s ease-in-out infinite; }
 .animate-rotate-slow   { animation: rotate-slow 20s linear infinite; }
-.animate-shimmer {
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-}
 
 /* ============================================================
    CARD VARIANTS
@@ -260,14 +246,8 @@ body {
 }
 
 .card:hover {
-  border-color: rgba(91,77,255,0.3);
-  box-shadow: 0 8px 40px rgba(0,0,0,0.4), 0 0 20px rgba(91,77,255,0.1);
-}
-
-.card-elevated {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-normal);
-  border-radius: 16px;
+  border-color: rgba(0,255,136,0.35);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 20px rgba(0,255,136,0.15);
 }
 
 /* ============================================================
@@ -289,26 +269,15 @@ body {
   white-space: nowrap;
 }
 
-.btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: white;
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-
-.btn:hover::before { opacity: 0.05; }
-.btn:active::before { opacity: 0.1; }
-
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary-600), var(--primary-500));
-  color: white;
-  box-shadow: 0 4px 20px rgba(91,77,255,0.3);
+  background: linear-gradient(135deg, var(--primary-600), var(--primary-400));
+  color: #020b06;
+  font-weight: 700;
+  box-shadow: 0 4px 20px rgba(0,255,136,0.35);
 }
 
 .btn-primary:hover {
-  box-shadow: 0 8px 30px rgba(91,77,255,0.5);
+  box-shadow: 0 8px 30px rgba(0,255,136,0.6);
   transform: translateY(-1px);
 }
 
@@ -321,7 +290,7 @@ body {
 .btn-ghost:hover {
   color: var(--text-primary);
   border-color: var(--border-primary);
-  background: rgba(91,77,255,0.05);
+  background: rgba(0,255,136,0.08);
 }
 
 .btn-sm  { padding: 6px 14px;  font-size: 0.8125rem; }
@@ -348,8 +317,8 @@ body {
 .input::placeholder { color: var(--text-muted); }
 
 .input:focus {
-  border-color: var(--primary-500);
-  box-shadow: 0 0 0 3px rgba(91,77,255,0.2);
+  border-color: var(--primary-400);
+  box-shadow: 0 0 0 3px rgba(0,255,136,0.25);
 }
 
 /* ============================================================
@@ -366,10 +335,10 @@ body {
   letter-spacing: 0.02em;
 }
 
-.badge-primary { background: rgba(91,77,255,0.15); color: var(--primary-300); border: 1px solid rgba(91,77,255,0.25); }
-.badge-accent  { background: rgba(0,212,255,0.1);  color: var(--accent-300);  border: 1px solid rgba(0,212,255,0.2);  }
-.badge-gold    { background: rgba(255,215,0,0.1);  color: var(--gold-300);    border: 1px solid rgba(255,215,0,0.2);  }
-.badge-success { background: rgba(0,255,136,0.1);  color: #33ff99;            border: 1px solid rgba(0,255,136,0.2);  }
+.badge-primary { background: rgba(0,255,136,0.15); color: var(--primary-300); border: 1px solid rgba(0,255,136,0.3); }
+.badge-accent  { background: rgba(0,212,255,0.1);  color: var(--accent-300);  border: 1px solid rgba(0,212,255,0.2); }
+.badge-gold    { background: rgba(255,215,0,0.1);  color: var(--gold-300);    border: 1px solid rgba(255,215,0,0.2); }
+.badge-success { background: rgba(0,255,136,0.2);  color: #00ff88;            border: 1px solid rgba(0,255,136,0.4); }
 .badge-danger  { background: rgba(255,56,100,0.1); color: #ff6680;            border: 1px solid rgba(255,56,100,0.2); }
 
 /* ============================================================
@@ -386,33 +355,10 @@ body {
 .progress-fill {
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--primary-600), var(--accent-400));
-  box-shadow: 0 0 10px rgba(91,77,255,0.4);
+  background: linear-gradient(90deg, var(--primary-600), var(--primary-400));
+  box-shadow: 0 0 10px rgba(0,255,136,0.5);
   transition: width 0.5s var(--ease-out-expo);
 }
-
-/* ============================================================
-   SKELETON
-   ============================================================ */
-.skeleton {
-  background: linear-gradient(
-    90deg,
-    var(--bg-elevated) 25%,
-    rgba(255,255,255,0.05) 37%,
-    var(--bg-elevated) 63%
-  );
-  background-size: 400% 100%;
-  animation: shimmer 1.4s ease infinite;
-  border-radius: 8px;
-}
-
-/* ============================================================
-   PRIORITY COLORS
-   ============================================================ */
-.priority-p0 { color: var(--danger);  border-color: rgba(255,56,100,0.3); }
-.priority-p1 { color: var(--warning); border-color: rgba(255,184,0,0.3);  }
-.priority-p2 { color: var(--accent-400); border-color: rgba(0,212,255,0.3); }
-.priority-p3 { color: var(--text-muted); border-color: var(--border-subtle); }
 
 /* ============================================================
    PAGE LAYOUT
@@ -462,15 +408,8 @@ body {
   width: 100%;
 }
 
-@media (max-width: 768px) {
-  .sidebar { width: 0; transform: translateX(-100%); }
-  .sidebar.mobile-open { width: var(--sidebar-width); transform: translateX(0); }
-  .main-content { margin-left: 0; }
-  .page-container { padding: 16px; }
-}
-
 /* ============================================================
-   HEATMAP GRID
+   HEATMAP GRID (MATRIX EMERALD)
    ============================================================ */
 .heatmap-cell {
   width: 12px;
@@ -482,23 +421,10 @@ body {
 .heatmap-cell:hover { transform: scale(1.4); }
 
 .heatmap-0 { background: var(--bg-elevated); }
-.heatmap-1 { background: rgba(91,77,255,0.2);  box-shadow: 0 0 4px rgba(91,77,255,0.1); }
-.heatmap-2 { background: rgba(91,77,255,0.4);  box-shadow: 0 0 6px rgba(91,77,255,0.2); }
-.heatmap-3 { background: rgba(91,77,255,0.65); box-shadow: 0 0 8px rgba(91,77,255,0.3); }
-.heatmap-4 { background: rgba(91,77,255,0.9);  box-shadow: 0 0 12px rgba(91,77,255,0.5); }
-
-/* ============================================================
-   TEAM MEMBER RING COLORS
-   ============================================================ */
-.ring-harvey  { --ring-color: #5b4dff; }
-.ring-drishti { --ring-color: #ff6b9d; }
-.ring-agni    { --ring-color: #ff6b2b; }
-.ring-arth    { --ring-color: #00d4ff; }
-.ring-kawach  { --ring-color: #00ff88; }
-.ring-niti    { --ring-color: #a855f7; }
-.ring-yugnayak{ --ring-color: #ffd700; }
-.ring-sasta   { --ring-color: #f97316; }
-.ring-abhishek{ --ring-color: #ec4899; }
+.heatmap-1 { background: rgba(0,255,136,0.25); box-shadow: 0 0 4px rgba(0,255,136,0.2); }
+.heatmap-2 { background: rgba(0,255,136,0.5);  box-shadow: 0 0 6px rgba(0,255,136,0.3); }
+.heatmap-3 { background: rgba(0,255,136,0.75); box-shadow: 0 0 8px rgba(0,255,136,0.5); }
+.heatmap-4 { background: #00ff88;              box-shadow: 0 0 12px rgba(0,255,136,0.8); }
 
 /* ============================================================
    COMMAND PALETTE
@@ -506,8 +432,8 @@ body {
 .cmd-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(8px);
+  background: rgba(2,11,6,0.8);
+  backdrop-filter: blur(10px);
   z-index: 800;
 }
 
@@ -530,57 +456,9 @@ body {
   font-family: 'Orbitron', monospace;
   font-size: 3rem;
   font-weight: 800;
-  background: linear-gradient(135deg, var(--gold-300), var(--primary-400));
+  background: linear-gradient(135deg, var(--primary-400), var(--gold-300));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   line-height: 1;
-}
-
-/* ============================================================
-   POMODORO TIMER
-   ============================================================ */
-.pomodoro-ring {
-  filter: drop-shadow(0 0 12px rgba(91,77,255,0.5));
-}
-
-/* ============================================================
-   FOCUS MODE
-   ============================================================ */
-.focus-mode-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(4,4,8,0.95);
-  backdrop-filter: blur(30px);
-  z-index: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ============================================================
-   DATA VISUALIZATION
-   ============================================================ */
-.chart-container { width: 100%; height: 100%; }
-
-.recharts-cartesian-grid-horizontal line,
-.recharts-cartesian-grid-vertical line {
-  stroke: rgba(255,255,255,0.04) !important;
-}
-
-.recharts-tooltip-wrapper .recharts-default-tooltip {
-  background: var(--bg-overlay) !important;
-  border: 1px solid var(--border-primary) !important;
-  border-radius: 8px !important;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5) !important;
-}
-
-/* ============================================================
-   REDUCE MOTION
-   ============================================================ */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
 }
