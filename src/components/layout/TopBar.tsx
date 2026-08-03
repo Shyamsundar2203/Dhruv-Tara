@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { format } from "date-fns";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 interface TopBarProps {
   onOpenCommandPalette: () => void;
@@ -12,7 +11,6 @@ interface TopBarProps {
 
 export default function TopBar({ onOpenCommandPalette }: TopBarProps) {
   const [time, setTime] = useState<string>("");
-  const pathname = usePathname();
 
   useEffect(() => {
     setTime(format(new Date(), "HH:mm:ss"));
@@ -22,96 +20,77 @@ export default function TopBar({ onOpenCommandPalette }: TopBarProps) {
     return () => clearInterval(interval);
   }, []);
 
-  const NAV_ITEMS = [
-    { label: "Home", href: "/dashboard" },
-    { label: "WalkWithMe", href: "/dashboard/daily" },
-    { label: "SmartMap", href: "/dashboard/tasks" },
-    { label: "Report", href: "/dashboard/analytics" },
-    { label: "Mission", href: "/dashboard/mission" },
-    { label: "Team", href: "/team" },
-  ];
-
   return (
     <header
       className="topbar glass px-6 flex items-center justify-between"
       style={{
-        background: "rgba(13, 6, 20, 0.8)",
-        borderBottom: "1px solid rgba(255, 43, 117, 0.15)",
+        background: "rgba(8, 8, 15, 0.7)",
+        borderBottom: "1px solid rgba(255,255,255,0.07)",
       }}
     >
-      {/* Brand Logo matching screenshot */}
-      <div className="flex items-center gap-6">
-        <Link href="/" className="flex items-center gap-2" style={{ textDecoration: "none" }}>
-          <span className="text-xl" style={{ color: "#ff2b75" }}>✦</span>
-          <span
-            className="font-accent text-lg font-extrabold tracking-tight"
-            style={{ color: "white" }}
-          >
-            Dhruv<span style={{ color: "#ff4d94" }}>Tara</span>
-          </span>
-        </Link>
-
-        {/* Navigation Links matching screenshot */}
-        <nav className="hidden md:flex items-center gap-1 ml-4">
-          {NAV_ITEMS.map((item) => {
-            const isActive = pathname === item.href;
-            return (
-              <Link key={item.href} href={item.href} style={{ textDecoration: "none" }}>
-                <span
-                  className="px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all"
-                  style={{
-                    color: isActive ? "#ff4d94" : "var(--text-secondary)",
-                    background: isActive ? "rgba(255, 43, 117, 0.12)" : "transparent",
-                    border: isActive ? "1px solid rgba(255, 43, 117, 0.25)" : "1px solid transparent",
-                  }}
-                >
-                  {item.label}
-                </span>
-              </Link>
-            );
-          })}
-        </nav>
-      </div>
-
-      {/* Right Controls */}
+      {/* Search / Command trigger */}
       <div className="flex items-center gap-3">
-        {/* Command Palette Trigger */}
         <motion.button
           onClick={onOpenCommandPalette}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs"
+          className="flex items-center gap-2.5 px-3.5 py-1.5 rounded-lg text-xs transition-all"
           style={{
             background: "var(--bg-elevated)",
-            border: "1px solid rgba(255, 43, 117, 0.2)",
+            border: "1px solid var(--border-normal)",
             color: "var(--text-muted)",
+            cursor: "pointer",
           }}
-          whileHover={{ scale: 1.02 }}
+          whileHover={{
+            borderColor: "var(--primary-500)",
+            color: "var(--text-secondary)",
+            boxShadow: "0 0 16px rgba(91,77,255,0.2)",
+          }}
+          whileTap={{ scale: 0.98 }}
         >
-          <span>🔍</span>
-          <span className="font-mono text-[0.7rem]">⌘K</span>
+          <span style={{ fontSize: "0.85rem" }}>🔍</span>
+          <span style={{ fontFamily: "var(--font-ui)" }}>Search modules & commands...</span>
+          <kbd
+            className="px-1.5 py-0.5 rounded text-xs font-mono ml-2"
+            style={{
+              background: "var(--bg-overlay)",
+              border: "1px solid var(--border-subtle)",
+              color: "var(--primary-300)",
+              fontSize: "0.65rem",
+            }}
+          >
+            ⌘K
+          </kbd>
         </motion.button>
 
         {/* Live Clock */}
         <div
-          className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono"
+          className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-mono"
           style={{
-            background: "rgba(255, 43, 117, 0.08)",
-            border: "1px solid rgba(255, 43, 117, 0.2)",
-            color: "#ff80ab",
+            background: "var(--bg-elevated)",
+            border: "1px solid var(--border-subtle)",
+            color: "var(--text-secondary)",
           }}
         >
-          <span>⏱</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
           <span>{time}</span>
+          <span style={{ color: "var(--text-muted)", fontSize: "0.65rem" }}>IST</span>
         </div>
+      </div>
 
-        {/* Hot Pink Pill Button matching screenshot */}
-        <Link href="/dashboard/settings" style={{ textDecoration: "none" }}>
+      {/* Right Controls */}
+      <div className="flex items-center gap-3">
+        {/* JARVIS Quick Action Button */}
+        <Link href="/team/harvey-specter/chat" style={{ textDecoration: "none" }}>
           <motion.button
-            className="btn btn-primary btn-sm"
-            style={{ borderRadius: "9999px" }}
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.96 }}
+            className="btn btn-primary btn-sm flex items-center gap-2"
+            style={{
+              background: "linear-gradient(135deg, var(--primary-600), var(--primary-500))",
+              boxShadow: "0 4px 16px rgba(91,77,255,0.3)",
+            }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
           >
-            Settings / Login
+            <span>🤖</span>
+            <span>JARVIS Online</span>
           </motion.button>
         </Link>
       </div>
