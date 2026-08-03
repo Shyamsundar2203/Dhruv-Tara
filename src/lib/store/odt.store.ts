@@ -1,6 +1,6 @@
 // ============================================================
-// OPERATION DHRUV TARA — PERSISTENT STORE (Zustand + Dexie)
-// Single source of truth for all Sprint 1 data
+// OPERATION DHRUV TARA — FULL SOVEREIGN DATA STORE
+// Covers all 15 modules with persistent LocalStorage state
 // ============================================================
 
 import { create } from "zustand";
@@ -10,7 +10,6 @@ import { format, subDays } from "date-fns";
 // ── Types ────────────────────────────────────────────────────
 export type TaskStatus   = "backlog" | "todo" | "in_progress" | "review" | "done";
 export type TaskPriority = "p0" | "p1" | "p2" | "p3";
-export type HabitFreq    = "daily" | "weekdays" | "weekly";
 
 export interface Task {
   id: string;
@@ -21,8 +20,6 @@ export interface Task {
   category?: string;
   tags: string[];
   due_date?: string;
-  estimated_min?: number;
-  actual_min?: number;
   team_member_id?: string;
   is_mit: boolean;
   created_at: string;
@@ -34,7 +31,7 @@ export interface Habit {
   id: string;
   name: string;
   description?: string;
-  frequency: HabitFreq;
+  frequency: string;
   category: string;
   icon: string;
   color: string;
@@ -46,7 +43,6 @@ export interface HabitLog {
   habit_id: string;
   date: string; // YYYY-MM-DD
   completed: boolean;
-  note?: string;
   logged_at: string;
 }
 
@@ -57,7 +53,6 @@ export interface DailyEntry {
   journal_md?: string;
   morning_intention?: string;
   night_reflection?: string;
-  ai_summary?: string;
   mit_1?: string;
   mit_2?: string;
   mit_3?: string;
@@ -84,16 +79,78 @@ export interface Mission {
   tagline: string;
 }
 
-// ── Store Interface ──────────────────────────────────────────
+// Flashcards & Learning
+export interface Flashcard {
+  id: string;
+  deck: string;
+  front: string;
+  back: string;
+  difficulty: "easy" | "medium" | "hard";
+  reviewed_at?: string;
+}
+
+// Projects
+export interface ProjectItem {
+  id: string;
+  name: string;
+  description: string;
+  tech_stack: string[];
+  github_url?: string;
+  status: "planning" | "in_development" | "deployed" | "archived";
+  progress: number;
+  created_at: string;
+}
+
+// Finance
+export interface TransactionItem {
+  id: string;
+  description: string;
+  amount: number;
+  type: "income" | "expense";
+  category: string;
+  date: string;
+}
+
+// Fitness
+export interface WorkoutItem {
+  id: string;
+  exercise: string;
+  sets: number;
+  reps: number;
+  weight_kg: number;
+  date: string;
+}
+
+// Knowledge Note
+export interface NoteItem {
+  id: string;
+  title: string;
+  content_md: string;
+  tags: string[];
+  created_at: string;
+  updated_at: string;
+}
+
+// Job Application
+export interface JobApp {
+  id: string;
+  company: string;
+  role: string;
+  status: "wishlist" | "applied" | "interviewing" | "offer" | "rejected";
+  applied_date: string;
+  salary_range?: string;
+  notes?: string;
+}
+
+// Store Interface
 interface ODTStore {
   // Mission
   mission: Mission;
   milestones: Milestone[];
   updateMission: (m: Partial<Mission>) => void;
   addMilestone: (m: Omit<Milestone, "id" | "order">) => void;
-  updateMilestone: (id: string, updates: Partial<Milestone>) => void;
-  deleteMilestone: (id: string) => void;
   completeMilestone: (id: string) => void;
+  deleteMilestone: (id: string) => void;
 
   // Tasks
   tasks: Task[];
@@ -101,18 +158,12 @@ interface ODTStore {
   updateTask: (id: string, updates: Partial<Task>) => void;
   deleteTask: (id: string) => void;
   moveTask: (id: string, status: TaskStatus) => void;
-  reorderTasks: (tasks: Task[]) => void;
 
   // Habits
   habits: Habit[];
   habitLogs: HabitLog[];
   addHabit: (h: Omit<Habit, "id" | "created_at">) => void;
-  updateHabit: (id: string, updates: Partial<Habit>) => void;
-  deleteHabit: (id: string) => void;
   toggleHabit: (habit_id: string, date: string) => void;
-  getHabitLog: (habit_id: string, date: string) => HabitLog | undefined;
-  getHabitStreak: (habit_id: string) => number;
-  getHabitCompletionRate: (habit_id: string, days: number) => number;
   getHeatmapData: (days?: number) => Array<{ date: string; value: number; level: 0|1|2|3|4 }>;
 
   // Daily
@@ -120,315 +171,216 @@ interface ODTStore {
   getTodayEntry: () => DailyEntry;
   updateDailyEntry: (date: string, updates: Partial<DailyEntry>) => void;
 
+  // Learning
+  flashcards: Flashcard[];
+  addFlashcard: (f: Omit<Flashcard, "id">) => void;
+  deleteFlashcard: (id: string) => void;
+
+  // Projects
+  projects: ProjectItem[];
+  addProject: (p: Omit<ProjectItem, "id" | "created_at">) => void;
+  deleteProject: (id: string) => void;
+
+  // Finance
+  transactions: TransactionItem[];
+  addTransaction: (t: Omit<TransactionItem, "id">) => void;
+  deleteTransaction: (id: string) => void;
+
+  // Fitness
+  workouts: WorkoutItem[];
+  addWorkout: (w: Omit<WorkoutItem, "id">) => void;
+  deleteWorkout: (id: string) => void;
+
+  // Knowledge
+  notes: NoteItem[];
+  addNote: (n: Omit<NoteItem, "id" | "created_at" | "updated_at">) => void;
+  updateNote: (id: string, updates: Partial<NoteItem>) => void;
+  deleteNote: (id: string) => void;
+
+  // Career / Job Apps
+  jobApps: JobApp[];
+  addJobApp: (j: Omit<JobApp, "id">) => void;
+  updateJobAppStatus: (id: string, status: JobApp["status"]) => void;
+  deleteJobApp: (id: string) => void;
+
   // Settings
   geminiApiKey: string;
   setGeminiApiKey: (key: string) => void;
-
-  // Life Score (computed)
-  getLifeScore: () => { overall: number; habits: number; tasks: number; mission: number };
 }
 
-// ── Default Data ─────────────────────────────────────────────
 const DEFAULT_MISSION: Mission = {
   name: "Operation Dhruv Tara",
-  vision: "Become a world-class AI engineer and entrepreneur by 2030. Build products that impact millions. Live in the top 1% — financially, physically, mentally.",
-  purpose: "To prove that a student from India can compete and win on the world stage through relentless learning, discipline, and execution.",
+  vision: "Become a top 0.1% AI Engineer & Sovereign Builder by 2030. Build high-impact AI systems, dominate career milestones, achieve total financial freedom, and optimize health and mindset.",
+  purpose: "To prove that relentless focus, elite discipline, and continuous execution can transform ambition into global excellence.",
   start_date: "2024-01-01",
   target_date: "2030-01-01",
   tagline: "From student to sovereign by 2030.",
 };
 
 const DEFAULT_MILESTONES: Milestone[] = [
-  { id: "m1", title: "Master Python + ML Fundamentals", description: "Complete comprehensive ML curriculum", target_date: "2025-06-30", category: "Learning", order: 1 },
-  { id: "m2", title: "First AI Project on GitHub", description: "Deploy a real ML project publicly", target_date: "2025-03-31", category: "Projects", order: 2 },
-  { id: "m3", title: "Land First AI Internship", description: "Secure a paid AI/ML internship", target_date: "2025-12-31", category: "Career", order: 3 },
-  { id: "m4", title: "10K LinkedIn Followers", description: "Build a 10K+ personal brand audience", target_date: "2026-06-30", category: "Brand", order: 4 },
-  { id: "m5", title: "Launch First SaaS Product", description: "Ship a product with paying customers", target_date: "2027-01-01", category: "Business", order: 5 },
-  { id: "m6", title: "₹1 Lakh Monthly Revenue", description: "Achieve consistent monthly income", target_date: "2027-12-31", category: "Finance", order: 6 },
-  { id: "m7", title: "Full-Time AI Role (International)", description: "Land a top-tier AI engineering role", target_date: "2028-06-30", category: "Career", order: 7 },
-  { id: "m8", title: "Mission 2030 — Sovereign", description: "Top 1% in all life dimensions", target_date: "2030-01-01", category: "Mission", order: 8 },
+  { id: "m1", title: "Master Python & Core ML Mathematics", description: "NumPy, Pandas, PyTorch, Linear Algebra & Calculus", target_date: "2025-06-30", category: "AI Engineering", order: 1 },
+  { id: "m2", title: "Deploy First Full-Stack LLM Application", description: "RAG pipeline + Next.js + Vector Database", target_date: "2025-09-30", category: "Projects", order: 2 },
+  { id: "m3", title: "Land AI/ML Engineering Internship", description: "Paid role at a high-growth tech startup", target_date: "2025-12-31", category: "Career", order: 3 },
+  { id: "m4", title: "Build 10K Personal Brand Audience", description: "LinkedIn & X tech insights & project builds", target_date: "2026-06-30", category: "Brand", order: 4 },
+  { id: "m5", title: "Launch SaaS Product (₹1L+ MRR)", description: "Monetized AI tool with active subscribers", target_date: "2027-06-30", category: "Business", order: 5 },
+  { id: "m6", title: "Mission 2030 Singularity", description: "Top 0.1% global AI builder & total independence", target_date: "2030-01-01", category: "Mission", order: 6 },
 ];
 
 const DEFAULT_HABITS: Habit[] = [
-  { id: "h1", name: "Morning workout", description: "30+ min exercise", frequency: "daily", category: "Fitness", icon: "💪", color: "#00ff88", is_active: true, created_at: new Date().toISOString() },
-  { id: "h2", name: "Deep learning session", description: "1+ hour focused study", frequency: "daily", category: "Learning", icon: "🧠", color: "#5b4dff", is_active: true, created_at: new Date().toISOString() },
-  { id: "h3", name: "Read 20 pages", description: "Book or research paper", frequency: "daily", category: "Learning", icon: "📚", color: "#00d4ff", is_active: true, created_at: new Date().toISOString() },
-  { id: "h4", name: "Journal entry", description: "Write morning intentions", frequency: "daily", category: "Mindset", icon: "📓", color: "#a855f7", is_active: true, created_at: new Date().toISOString() },
-  { id: "h5", name: "2L water intake", description: "Stay hydrated all day", frequency: "daily", category: "Health", icon: "💧", color: "#00d4ff", is_active: true, created_at: new Date().toISOString() },
-  { id: "h6", name: "Cold shower", description: "Mental toughness", frequency: "daily", category: "Health", icon: "🚿", color: "#00b8e6", is_active: true, created_at: new Date().toISOString() },
-  { id: "h7", name: "LinkedIn post / engagement", description: "Build personal brand daily", frequency: "daily", category: "Brand", icon: "📱", color: "#ff6b9d", is_active: true, created_at: new Date().toISOString() },
-  { id: "h8", name: "Meditation / breathing", description: "10 min mindfulness", frequency: "daily", category: "Mindset", icon: "🧘", color: "#ffd700", is_active: true, created_at: new Date().toISOString() },
+  { id: "h1", name: "Morning Workout / Exercise", description: "30+ min physical training", frequency: "daily", category: "Fitness", icon: "💪", color: "#00ff88", is_active: true, created_at: new Date().toISOString() },
+  { id: "h2", name: "1 Hour Deep AI Learning", description: "ML, PyTorch, LLMs, or Papers", frequency: "daily", category: "Learning", icon: "🧠", color: "#5b4dff", is_active: true, created_at: new Date().toISOString() },
+  { id: "h3", name: "Read 20 Pages", description: "Technical book or research paper", frequency: "daily", category: "Learning", icon: "📚", color: "#00d4ff", is_active: true, created_at: new Date().toISOString() },
+  { id: "h4", name: "Daily Reflection & Journal", description: "Morning intention & night review", frequency: "daily", category: "Mindset", icon: "📓", color: "#a855f7", is_active: true, created_at: new Date().toISOString() },
+  { id: "h5", name: "2.5L Water Hydration", description: "Optimal body performance", frequency: "daily", category: "Health", icon: "💧", color: "#00d4ff", is_active: true, created_at: new Date().toISOString() },
+  { id: "h6", name: "LinkedIn / Brand Post", description: "Share daily tech build or insight", frequency: "daily", category: "Brand", icon: "📱", color: "#ff6b9d", is_active: true, created_at: new Date().toISOString() },
 ];
 
 const DEFAULT_TASKS: Task[] = [
-  { id: "t1", title: "Complete Python fundamentals review", status: "in_progress", priority: "p0", category: "Learning", tags: ["python", "ai"], is_mit: true, created_at: new Date().toISOString(), order: 0 },
-  { id: "t2", title: "Build first ML project (MNIST classifier)", status: "todo", priority: "p0", category: "Projects", tags: ["ml", "github"], is_mit: true, created_at: new Date().toISOString(), order: 1 },
-  { id: "t3", title: "Update LinkedIn profile with AI focus", status: "todo", priority: "p1", category: "Brand", tags: ["linkedin", "brand"], is_mit: false, created_at: new Date().toISOString(), order: 2 },
-  { id: "t4", title: "Research ML internship opportunities", status: "backlog", priority: "p1", category: "Career", tags: ["internship", "career"], is_mit: false, created_at: new Date().toISOString(), order: 3 },
-  { id: "t5", title: "Log this week's workouts", status: "todo", priority: "p2", category: "Fitness", tags: ["fitness"], is_mit: false, created_at: new Date().toISOString(), order: 4 },
-  { id: "t6", title: "Set up expense tracking", status: "backlog", priority: "p2", category: "Finance", tags: ["finance"], is_mit: false, created_at: new Date().toISOString(), order: 5 },
-  { id: "t7", title: "Write weekly reflection post", status: "done", priority: "p2", category: "Brand", tags: ["content"], is_mit: false, created_at: new Date().toISOString(), completed_at: new Date().toISOString(), order: 6 },
+  { id: "t1", title: "Complete Transformer Architecture Notes", status: "in_progress", priority: "p0", category: "AI Engineering", tags: ["llm", "pytorch"], is_mit: true, created_at: new Date().toISOString(), order: 0 },
+  { id: "t2", title: "Build Vector Search RAG Demo", status: "todo", priority: "p0", category: "Projects", tags: ["rag", "langchain"], is_mit: true, created_at: new Date().toISOString(), order: 1 },
+  { id: "t3", title: "Update Resume with Operation Dhruv Tara", status: "todo", priority: "p1", category: "Career", tags: ["resume"], is_mit: false, created_at: new Date().toISOString(), order: 2 },
+  { id: "t4", title: "Log Financial Expenses & Budget", status: "done", priority: "p2", category: "Finance", tags: ["finance"], is_mit: false, created_at: new Date().toISOString(), completed_at: new Date().toISOString(), order: 3 },
 ];
 
-// ── Helper: generate seed habit logs for the last 60 days ────
+const DEFAULT_FLASHCARDS: Flashcard[] = [
+  { id: "fc1", deck: "Machine Learning", front: "What is the key difference between L1 and L2 Regularization?", back: "L1 (Lasso) adds absolute values and leads to sparse weights (feature selection). L2 (Ridge) adds squared values and shrinks weights continuously.", difficulty: "medium" },
+  { id: "fc2", deck: "Deep Learning", front: "Why is Self-Attention in Transformers O(N^2)?", back: "Because every token computes a dot-product attention score with every other token in the sequence of length N.", difficulty: "hard" },
+  { id: "fc3", deck: "Python AI", front: "What does `torch.no_grad()` do?", back: "Disables gradient calculation during evaluation, saving memory and speeding up inference computation.", difficulty: "easy" },
+];
+
+const DEFAULT_PROJECTS: ProjectItem[] = [
+  { id: "p1", name: "Operation Dhruv Tara OS", description: "AI-powered Life Operating System with Next.js 16, Three.js, and Gemini API", tech_stack: ["Next.js", "TypeScript", "Three.js", "Zustand", "TailwindCSS"], github_url: "https://github.com/Shyamsundar2203/Dhruv-Tara", status: "in_development", progress: 85, created_at: new Date().toISOString() },
+  { id: "p2", name: "Neural Vector RAG Engine", description: "Autonomous document Q&A system using embeddings and local LLM reranking", tech_stack: ["Python", "PyTorch", "FastAPI", "Qdrant"], status: "planning", progress: 25, created_at: new Date().toISOString() },
+];
+
+const DEFAULT_TRANSACTIONS: TransactionItem[] = [
+  { id: "tr1", description: "AI Research Book Purchase", amount: 1200, type: "expense", category: "Learning", date: format(new Date(), "yyyy-MM-dd") },
+  { id: "tr2", description: "Freelance Project Milestone", amount: 15000, type: "income", category: "Income", date: format(new Date(), "yyyy-MM-dd") },
+  { id: "tr3", description: "Gym Membership Monthly", amount: 1500, type: "expense", category: "Fitness", date: format(new Date(), "yyyy-MM-dd") },
+];
+
+const DEFAULT_WORKOUTS: WorkoutItem[] = [
+  { id: "w1", exercise: "Barbell Bench Press", sets: 4, reps: 10, weight_kg: 70, date: format(new Date(), "yyyy-MM-dd") },
+  { id: "w2", exercise: "Incline DB Press", sets: 3, reps: 12, weight_kg: 24, date: format(new Date(), "yyyy-MM-dd") },
+  { id: "w3", exercise: "Triceps Pushdowns", sets: 4, reps: 15, weight_kg: 30, date: format(new Date(), "yyyy-MM-dd") },
+];
+
+const DEFAULT_NOTES: NoteItem[] = [
+  { id: "n1", title: "Transformer Architecture Deep Dive", content_md: "# Transformer Architecture\n\n- **Encoder**: Multi-Head Attention + FeedForward\n- **Decoder**: Masked Multi-Head Attention\n- **Positional Encoding**: Sine & Cosine functions for sequence order", tags: ["ai", "architecture"], created_at: new Date().toISOString(), updated_at: new Date().toISOString() },
+  { id: "n2", title: "2030 Sovereign Playbook", content_md: "# Mission 2030 Principles\n\n1. Relentless Skill Building\n2. Output-Driven Execution\n3. Zero Excuses, 100% Accountability", tags: ["mindset", "mission"], created_at: new Date().toISOString(), updated_at: new Date().toISOString() },
+];
+
+const DEFAULT_JOB_APPS: JobApp[] = [
+  { id: "j1", company: "OpenAI / Anthropic Partner Lab", role: "AI Engineering Intern", status: "interviewing", applied_date: "2025-02-15", salary_range: "₹60,000/mo", notes: "Technical round scheduled" },
+  { id: "j2", company: "Top Tech Startup", role: "Generative AI Developer", status: "applied", applied_date: "2025-02-20", salary_range: "₹50,000/mo" },
+];
+
 function generateSeedLogs(): HabitLog[] {
   const logs: HabitLog[] = [];
   const today = new Date();
   DEFAULT_HABITS.forEach((habit) => {
     for (let d = 60; d >= 0; d--) {
       const date = format(subDays(today, d), "yyyy-MM-dd");
-      // Random completion with bias toward recent days being more complete
-      const prob = d < 7 ? 0.8 : d < 30 ? 0.65 : 0.5;
-      if (Math.random() < prob) {
-        logs.push({
-          habit_id: habit.id,
-          date,
-          completed: true,
-          logged_at: new Date().toISOString(),
-        });
+      if (Math.random() < 0.7) {
+        logs.push({ habit_id: habit.id, date, completed: true, logged_at: new Date().toISOString() });
       }
     }
   });
   return logs;
 }
 
-// ── Store ─────────────────────────────────────────────────────
 export const useODTStore = create<ODTStore>()(
   persist(
     (set, get) => ({
-      // ── Mission ──────────────────────────────────────────
       mission: DEFAULT_MISSION,
       milestones: DEFAULT_MILESTONES,
-
       updateMission: (m) => set((s) => ({ mission: { ...s.mission, ...m } })),
+      addMilestone: (m) => set((s) => ({ milestones: [...s.milestones, { ...m, id: `ms_${Date.now()}`, order: s.milestones.length + 1 }] })),
+      completeMilestone: (id) => set((s) => ({ milestones: s.milestones.map((m) => m.id === id ? { ...m, completed_at: m.completed_at ? undefined : new Date().toISOString() } : m) })),
+      deleteMilestone: (id) => set((s) => ({ milestones: s.milestones.filter((m) => m.id !== id) })),
 
-      addMilestone: (m) => {
-        const id = `ms_${Date.now()}`;
-        const order = get().milestones.length + 1;
-        set((s) => ({ milestones: [...s.milestones, { ...m, id, order }] }));
-      },
-
-      updateMilestone: (id, updates) =>
-        set((s) => ({
-          milestones: s.milestones.map((ms) => ms.id === id ? { ...ms, ...updates } : ms),
-        })),
-
-      deleteMilestone: (id) =>
-        set((s) => ({ milestones: s.milestones.filter((ms) => ms.id !== id) })),
-
-      completeMilestone: (id) =>
-        set((s) => ({
-          milestones: s.milestones.map((ms) =>
-            ms.id === id
-              ? { ...ms, completed_at: ms.completed_at ? undefined : new Date().toISOString() }
-              : ms
-          ),
-        })),
-
-      // ── Tasks ─────────────────────────────────────────────
       tasks: DEFAULT_TASKS,
+      addTask: (t) => set((s) => ({ tasks: [...s.tasks, { ...t, id: `t_${Date.now()}`, created_at: new Date().toISOString(), order: s.tasks.length }] })),
+      updateTask: (id, updates) => set((s) => ({ tasks: s.tasks.map((t) => t.id === id ? { ...t, ...updates } : t) })),
+      deleteTask: (id) => set((s) => ({ tasks: s.tasks.filter((t) => t.id !== id) })),
+      moveTask: (id, status) => set((s) => ({ tasks: s.tasks.map((t) => t.id === id ? { ...t, status, completed_at: status === "done" ? new Date().toISOString() : undefined } : t) })),
 
-      addTask: (t) => {
-        const id = `task_${Date.now()}`;
-        set((s) => ({
-          tasks: [...s.tasks, { ...t, id, created_at: new Date().toISOString(), order: s.tasks.length }],
-        }));
-      },
-
-      updateTask: (id, updates) =>
-        set((s) => ({
-          tasks: s.tasks.map((t) => t.id === id ? { ...t, ...updates } : t),
-        })),
-
-      deleteTask: (id) =>
-        set((s) => ({ tasks: s.tasks.filter((t) => t.id !== id) })),
-
-      moveTask: (id, status) =>
-        set((s) => ({
-          tasks: s.tasks.map((t) =>
-            t.id === id
-              ? { ...t, status, completed_at: status === "done" ? new Date().toISOString() : undefined }
-              : t
-          ),
-        })),
-
-      reorderTasks: (tasks) => set({ tasks }),
-
-      // ── Habits ────────────────────────────────────────────
       habits: DEFAULT_HABITS,
       habitLogs: generateSeedLogs(),
-
-      addHabit: (h) => {
-        const id = `habit_${Date.now()}`;
-        set((s) => ({
-          habits: [...s.habits, { ...h, id, created_at: new Date().toISOString() }],
-        }));
-      },
-
-      updateHabit: (id, updates) =>
-        set((s) => ({
-          habits: s.habits.map((h) => h.id === id ? { ...h, ...updates } : h),
-        })),
-
-      deleteHabit: (id) =>
-        set((s) => ({
-          habits: s.habits.filter((h) => h.id !== id),
-          habitLogs: s.habitLogs.filter((l) => l.habit_id !== id),
-        })),
-
+      addHabit: (h) => set((s) => ({ habits: [...s.habits, { ...h, id: `h_${Date.now()}`, created_at: new Date().toISOString() }] })),
       toggleHabit: (habit_id, date) => {
-        const existing = get().habitLogs.find(
-          (l) => l.habit_id === habit_id && l.date === date
-        );
+        const existing = get().habitLogs.find((l) => l.habit_id === habit_id && l.date === date);
         if (existing) {
-          set((s) => ({
-            habitLogs: s.habitLogs.map((l) =>
-              l.habit_id === habit_id && l.date === date
-                ? { ...l, completed: !l.completed }
-                : l
-            ),
-          }));
+          set((s) => ({ habitLogs: s.habitLogs.map((l) => l.habit_id === habit_id && l.date === date ? { ...l, completed: !l.completed } : l) }));
         } else {
-          set((s) => ({
-            habitLogs: [...s.habitLogs, {
-              habit_id, date, completed: true,
-              logged_at: new Date().toISOString(),
-            }],
-          }));
+          set((s) => ({ habitLogs: [...s.habitLogs, { habit_id, date, completed: true, logged_at: new Date().toISOString() }] }));
         }
       },
-
-      getHabitLog: (habit_id, date) =>
-        get().habitLogs.find((l) => l.habit_id === habit_id && l.date === date),
-
-      getHabitStreak: (habit_id) => {
-        const logs = get().habitLogs
-          .filter((l) => l.habit_id === habit_id && l.completed)
-          .map((l) => l.date)
-          .sort()
-          .reverse();
-
-        let streak = 0;
-        const today = format(new Date(), "yyyy-MM-dd");
-        let checkDate = today;
-
-        for (let i = 0; i < 365; i++) {
-          if (logs.includes(checkDate)) {
-            streak++;
-            checkDate = format(subDays(new Date(checkDate), 1), "yyyy-MM-dd");
-          } else if (checkDate === today) {
-            // Allow today to not count yet
-            checkDate = format(subDays(new Date(checkDate), 1), "yyyy-MM-dd");
-          } else {
-            break;
-          }
-        }
-        return streak;
-      },
-
-      getHabitCompletionRate: (habit_id, days) => {
-        const logs = get().habitLogs.filter((l) => l.habit_id === habit_id && l.completed);
-        let count = 0;
-        for (let d = 0; d < days; d++) {
-          const date = format(subDays(new Date(), d), "yyyy-MM-dd");
-          if (logs.find((l) => l.date === date)) count++;
-        }
-        return Math.round((count / days) * 100);
-      },
-
       getHeatmapData: (days = 365) => {
         const { habits, habitLogs } = get();
-        const activeHabits = habits.filter((h) => h.is_active).length;
+        const activeCount = habits.filter((h) => h.is_active).length;
         const result = [];
-
         for (let d = days - 1; d >= 0; d--) {
           const date = format(subDays(new Date(), d), "yyyy-MM-dd");
           const completed = habitLogs.filter((l) => l.date === date && l.completed).length;
-          const ratio = activeHabits > 0 ? completed / activeHabits : 0;
+          const ratio = activeCount > 0 ? completed / activeCount : 0;
           const level = ratio === 0 ? 0 : ratio < 0.25 ? 1 : ratio < 0.5 ? 2 : ratio < 0.75 ? 3 : 4;
           result.push({ date, value: completed, level: level as 0|1|2|3|4 });
         }
         return result;
       },
 
-      // ── Daily ─────────────────────────────────────────────
       dailyEntries: [],
-
       getTodayEntry: () => {
         const today = format(new Date(), "yyyy-MM-dd");
         const existing = get().dailyEntries.find((e) => e.date === today);
         if (existing) return existing;
-        const newEntry: DailyEntry = {
-          date: today,
-          pomodoro_count: 0,
-          created_at: new Date().toISOString(),
-        };
+        const newEntry: DailyEntry = { date: today, pomodoro_count: 0, created_at: new Date().toISOString() };
         set((s) => ({ dailyEntries: [...s.dailyEntries, newEntry] }));
         return newEntry;
       },
+      updateDailyEntry: (date, updates) => set((s) => {
+        const exists = s.dailyEntries.find((e) => e.date === date);
+        if (exists) {
+          return { dailyEntries: s.dailyEntries.map((e) => e.date === date ? { ...e, ...updates } : e) };
+        }
+        return { dailyEntries: [...s.dailyEntries, { date, pomodoro_count: 0, created_at: new Date().toISOString(), ...updates }] };
+      }),
 
-      updateDailyEntry: (date, updates) =>
-        set((s) => {
-          const exists = s.dailyEntries.find((e) => e.date === date);
-          if (exists) {
-            return { dailyEntries: s.dailyEntries.map((e) => e.date === date ? { ...e, ...updates } : e) };
-          }
-          return {
-            dailyEntries: [...s.dailyEntries, {
-              date, pomodoro_count: 0, created_at: new Date().toISOString(), ...updates,
-            }],
-          };
-        }),
+      flashcards: DEFAULT_FLASHCARDS,
+      addFlashcard: (f) => set((s) => ({ flashcards: [...s.flashcards, { ...f, id: `fc_${Date.now()}` }] })),
+      deleteFlashcard: (id) => set((s) => ({ flashcards: s.flashcards.filter((f) => f.id !== id) })),
 
-      // ── Settings ──────────────────────────────────────────
+      projects: DEFAULT_PROJECTS,
+      addProject: (p) => set((s) => ({ projects: [...s.projects, { ...p, id: `proj_${Date.now()}`, created_at: new Date().toISOString() }] })),
+      deleteProject: (id) => set((s) => ({ projects: s.projects.filter((p) => p.id !== id) })),
+
+      transactions: DEFAULT_TRANSACTIONS,
+      addTransaction: (t) => set((s) => ({ transactions: [...s.transactions, { ...t, id: `tr_${Date.now()}` }] })),
+      deleteTransaction: (id) => set((s) => ({ transactions: s.transactions.filter((t) => t.id !== id) })),
+
+      workouts: DEFAULT_WORKOUTS,
+      addWorkout: (w) => set((s) => ({ workouts: [...s.workouts, { ...w, id: `w_${Date.now()}` }] })),
+      deleteWorkout: (id) => set((s) => ({ workouts: s.workouts.filter((w) => w.id !== id) })),
+
+      notes: DEFAULT_NOTES,
+      addNote: (n) => set((s) => ({ notes: [...s.notes, { ...n, id: `n_${Date.now()}`, created_at: new Date().toISOString(), updated_at: new Date().toISOString() }] })),
+      updateNote: (id, updates) => set((s) => ({ notes: s.notes.map((n) => n.id === id ? { ...n, ...updates, updated_at: new Date().toISOString() } : n) })),
+      deleteNote: (id) => set((s) => ({ notes: s.notes.filter((n) => n.id !== id) })),
+
+      jobApps: DEFAULT_JOB_APPS,
+      addJobApp: (j) => set((s) => ({ jobApps: [...s.jobApps, { ...j, id: `j_${Date.now()}` }] })),
+      updateJobAppStatus: (id, status) => set((s) => ({ jobApps: s.jobApps.map((j) => j.id === id ? { ...j, status } : j) })),
+      deleteJobApp: (id) => set((s) => ({ jobApps: s.jobApps.filter((j) => j.id !== id) })),
+
       geminiApiKey: "",
       setGeminiApiKey: (key) => {
         if (typeof window !== "undefined") localStorage.setItem("gemini_api_key", key);
         set({ geminiApiKey: key });
       },
-
-      // ── Life Score ────────────────────────────────────────
-      getLifeScore: () => {
-        const { habits, habitLogs, tasks } = get();
-        const today = format(new Date(), "yyyy-MM-dd");
-
-        // Habits score
-        const activeHabits = habits.filter((h) => h.is_active);
-        const todayCompleted = habitLogs.filter((l) => l.date === today && l.completed).length;
-        const habitsScore = activeHabits.length > 0
-          ? Math.round((todayCompleted / activeHabits.length) * 100)
-          : 0;
-
-        // Tasks score (done vs total non-backlog)
-        const activeTasks = tasks.filter((t) => t.status !== "backlog");
-        const doneTasks = tasks.filter((t) => t.status === "done").length;
-        const tasksScore = activeTasks.length > 0
-          ? Math.min(100, Math.round((doneTasks / activeTasks.length) * 100))
-          : 50;
-
-        // Mission score (milestones completed)
-        const { milestones } = get();
-        const completed = milestones.filter((m) => m.completed_at).length;
-        const missionScore = milestones.length > 0
-          ? Math.round((completed / milestones.length) * 100)
-          : 10;
-
-        const overall = Math.round((habitsScore * 0.35 + tasksScore * 0.35 + missionScore * 0.3));
-
-        return { overall, habits: habitsScore, tasks: tasksScore, mission: missionScore };
-      },
     }),
     {
-      name: "odt-store-v1",
-      partialize: (state) => ({
-        mission: state.mission,
-        milestones: state.milestones,
-        tasks: state.tasks,
-        habits: state.habits,
-        habitLogs: state.habitLogs,
-        dailyEntries: state.dailyEntries,
-        geminiApiKey: state.geminiApiKey,
-      }),
+      name: "odt-store-v2",
     }
   )
 );
