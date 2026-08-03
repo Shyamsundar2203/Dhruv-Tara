@@ -1,69 +1,66 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 @import "tailwindcss";
 
 /* ============================================================
-   DESIGN SYSTEM TOKENS — COSMIC PURPLE & CYBER CYAN THEME
-   Matching exact UI/UX of https://dhruv-tara.vercel.app/
+   DESIGN SYSTEM TOKENS — DHRUV TARA CLEAN ROSE & DARK VIOLET
+   Matching the exact UI/UX from https://dhruv-tara.vercel.app/
    ============================================================ */
 :root {
-  /* Primary: Cosmic Purple-Blue */
-  --primary-50:  #f0f0ff;
-  --primary-100: #e0e0ff;
-  --primary-200: #c7c7ff;
-  --primary-300: #a5a0ff;
-  --primary-400: #7c72ff;
-  --primary-500: #5b4dff;  /* Brand Main Purple */
-  --primary-600: #4430f5;
-  --primary-700: #3a20e0;
-  --primary-800: #301cb5;
-  --primary-900: #2b1a90;
+  /* Primary: Hot Pink / Rose */
+  --primary-50:  #fff0f5;
+  --primary-100: #ffe0eb;
+  --primary-200: #ffb8d2;
+  --primary-300: #ff80ab;
+  --primary-400: #ff4d94;
+  --primary-500: #ff2b75;  /* Main Hot Pink Brand Color */
+  --primary-600: #e6005c;
+  --primary-700: #b30047;
+  --primary-800: #800033;
+  --primary-900: #4d001f;
 
-  /* Accent: Electric Cyan */
-  --accent-300: #67e8ff;
-  --accent-400: #00d4ff;
-  --accent-500: #00b8e6;
+  /* Accent: Neon Violet & Purple */
+  --accent-300: #c084fc;
+  --accent-400: #a855f7;
+  --accent-500: #9333ea;
 
-  /* Gold: Achievement / Score */
-  --gold-300: #ffe066;
+  /* Gold & Cyan */
   --gold-400: #ffd700;
-  --gold-500: #f0c000;
+  --cyan-400: #00d4ff;
 
   /* Semantic */
   --success: #00ff88;
   --warning: #ffb800;
   --danger:  #ff3864;
-  --info:    #00d4ff;
 
-  /* Backgrounds: Deep Cosmic Space */
-  --bg-base:    #040408;
-  --bg-surface: #08080f;
-  --bg-elevated:#0f0f1c;
-  --bg-overlay: #14142a;
+  /* Backgrounds: Dark Violet-Black with Grid */
+  --bg-base:    #0d0614;
+  --bg-surface: #140b1f;
+  --bg-elevated:#1c0f2b;
+  --bg-overlay: #251438;
 
   /* Text */
-  --text-primary:   #eeeeff;
-  --text-secondary: #8888bb;
-  --text-muted:     #44446a;
+  --text-primary:   #ffffff;
+  --text-secondary: #c4b5fd;
+  --text-muted:     #6b5b82;
 
   /* Borders */
-  --border-subtle:  rgba(255,255,255,0.04);
-  --border-normal:  rgba(255,255,255,0.08);
-  --border-strong:  rgba(255,255,255,0.16);
-  --border-primary: rgba(91,77,255,0.3);
+  --border-subtle:  rgba(255,43,117,0.08);
+  --border-normal:  rgba(255,43,117,0.16);
+  --border-strong:  rgba(255,43,117,0.3);
+  --border-primary: rgba(255,43,117,0.5);
 
-  /* Sidebar */
+  /* Layout */
   --sidebar-width: 240px;
   --sidebar-collapsed: 72px;
-  --topbar-height: 60px;
+  --topbar-height: 64px;
 
   /* Transitions */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* ============================================================
-   BASE RESET & GLOBAL
+   BASE RESET & GLOBAL GRID BACKGROUND
    ============================================================ */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -75,184 +72,98 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
   background: var(--bg-base);
   color: var(--text-primary);
   line-height: 1.6;
   overflow-x: hidden;
+  /* Grid pattern background matching dhruv-tara.vercel.app */
+  background-image: 
+    linear-gradient(to right, rgba(255, 43, 117, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 43, 117, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 
 /* ============================================================
-   CUSTOM CURSOR
+   CUSTOM CURSOR (HOT PINK GLOW)
    ============================================================ */
 .custom-cursor {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   background: var(--primary-500);
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
   z-index: 9999;
-  transition: transform 0.1s ease, opacity 0.2s ease;
-  mix-blend-mode: screen;
-  box-shadow: 0 0 10px var(--primary-500);
+  box-shadow: 0 0 12px var(--primary-500);
 }
 
 .custom-cursor-ring {
-  width: 36px;
-  height: 36px;
-  border: 1px solid rgba(91,77,255,0.5);
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid rgba(255, 43, 117, 0.5);
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
   z-index: 9998;
-  transition: transform 0.15s var(--ease-out-expo);
 }
 
 /* ============================================================
-   GLASSMORPHISM UTILITIES — COSMIC EDITION
+   CLEAN MODERN GLASSMORPHISM — PINK VIOLET EDITION
    ============================================================ */
 .glass {
-  background: rgba(8, 8, 15, 0.6);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.07);
-  box-shadow: 0 8px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.07);
+  background: rgba(20, 11, 31, 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 43, 117, 0.14);
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
 }
 
 .glass-primary {
-  background: rgba(91,77,255,0.1);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(91,77,255,0.22);
-  box-shadow: 0 0 40px rgba(91,77,255,0.15), inset 0 1px 0 rgba(91,77,255,0.1);
+  background: rgba(255, 43, 117, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 43, 117, 0.3);
+  border-radius: 20px;
+  box-shadow: 0 0 40px rgba(255, 43, 117, 0.2);
 }
 
 .glass-accent {
-  background: rgba(0,212,255,0.07);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(0,212,255,0.18);
-  box-shadow: 0 0 40px rgba(0,212,255,0.12);
-}
-
-.glass-gold {
-  background: rgba(255,215,0,0.06);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(255,215,0,0.2);
-  box-shadow: 0 0 40px rgba(255,215,0,0.1);
+  background: rgba(168, 85, 247, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  border-radius: 20px;
+  box-shadow: 0 0 40px rgba(168, 85, 247, 0.15);
 }
 
 /* ============================================================
-   GLOW EFFECTS
+   TYPOGRAPHY
    ============================================================ */
-.glow-primary  { box-shadow: 0 0 30px rgba(91,77,255,0.35); }
-.glow-accent   { box-shadow: 0 0 30px rgba(0,212,255,0.3); }
-.glow-gold     { box-shadow: 0 0 30px rgba(255,215,0,0.3); }
-
-.text-glow-primary { text-shadow: 0 0 20px rgba(91,77,255,0.6); }
-.text-glow-accent  { text-shadow: 0 0 20px rgba(0,212,255,0.6); }
-
-/* ============================================================
-   TYPOGRAPHY UTILITIES
-   ============================================================ */
-.font-display { font-family: 'Orbitron', monospace; }
-.font-ui      { font-family: 'Inter', sans-serif; }
+.font-display { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; }
+.font-ui      { font-family: 'Plus Jakarta Sans', sans-serif; }
 .font-mono    { font-family: 'JetBrains Mono', monospace; }
-.font-accent  { font-family: 'Syne', sans-serif; }
 
 .text-gradient-primary {
-  background: linear-gradient(135deg, var(--primary-400), var(--accent-400));
+  background: linear-gradient(135deg, #ffffff 0%, #ff80ab 50%, #ff2b75 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.text-gradient-gold {
-  background: linear-gradient(135deg, var(--gold-300), var(--gold-500));
+.text-gradient-rose {
+  background: linear-gradient(135deg, #ff4d94, #ff2b75);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 /* ============================================================
-   SCROLLBAR STYLING
-   ============================================================ */
-::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb {
-  background: rgba(91,77,255,0.3);
-  border-radius: 2px;
-}
-::-webkit-scrollbar-thumb:hover { background: rgba(91,77,255,0.5); }
-
-/* ============================================================
-   SELECTION
-   ============================================================ */
-::selection {
-  background: rgba(91,77,255,0.3);
-  color: var(--text-primary);
-}
-
-/* ============================================================
-   ANIMATIONS
-   ============================================================ */
-@keyframes pulse-glow {
-  0%, 100% { opacity: 1; box-shadow: 0 0 20px rgba(91,77,255,0.3); }
-  50%       { opacity: 0.8; box-shadow: 0 0 40px rgba(91,77,255,0.6); }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-8px); }
-}
-
-@keyframes scan-line {
-  0%   { transform: translateY(-100%); }
-  100% { transform: translateY(100vh); }
-}
-
-@keyframes shimmer {
-  0%   { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-
-@keyframes rotate-slow {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-@keyframes ping-ring {
-  0%   { transform: scale(1); opacity: 0.8; }
-  100% { transform: scale(2.5); opacity: 0; }
-}
-
-.animate-pulse-glow    { animation: pulse-glow 3s ease-in-out infinite; }
-.animate-float         { animation: float 4s ease-in-out infinite; }
-.animate-rotate-slow   { animation: rotate-slow 20s linear infinite; }
-
-/* ============================================================
-   CARD VARIANTS
-   ============================================================ */
-.card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-normal);
-  border-radius: 12px;
-  transition: border-color 0.3s var(--ease-out-expo), box-shadow 0.3s var(--ease-out-expo);
-}
-
-.card:hover {
-  border-color: rgba(91,77,255,0.3);
-  box-shadow: 0 8px 40px rgba(0,0,0,0.4), 0 0 20px rgba(91,77,255,0.1);
-}
-
-/* ============================================================
-   BUTTON BASE
+   BUTTONS (HOT PINK PILLS — MATCHING DHRUV TARA UI)
    ============================================================ */
 .btn {
   display: inline-flex;
@@ -260,205 +171,107 @@ body {
   justify-content: center;
   gap: 8px;
   border: none;
-  border-radius: 8px;
+  border-radius: 9999px; /* Pill Shape */
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  transition: all 0.2s var(--ease-out-expo);
-  position: relative;
-  overflow: hidden;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  transition: all 0.25s var(--ease-out-expo);
   white-space: nowrap;
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary-600), var(--primary-500));
+  background: linear-gradient(135deg, #ff4d94, #ff2b75);
   color: white;
-  box-shadow: 0 4px 20px rgba(91,77,255,0.3);
+  box-shadow: 0 6px 25px rgba(255, 43, 117, 0.45);
 }
 
 .btn-primary:hover {
-  box-shadow: 0 8px 30px rgba(91,77,255,0.5);
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, #ff66a3, #ff3b8d);
+  box-shadow: 0 10px 35px rgba(255, 43, 117, 0.7);
+  transform: translateY(-2px);
 }
 
 .btn-ghost {
   background: transparent;
   color: var(--text-secondary);
-  border: 1px solid var(--border-normal);
+  border: 1px solid rgba(255, 43, 117, 0.3);
 }
 
 .btn-ghost:hover {
-  color: var(--text-primary);
-  border-color: var(--border-primary);
-  background: rgba(91,77,255,0.05);
+  color: white;
+  border-color: #ff2b75;
+  background: rgba(255, 43, 117, 0.12);
 }
 
-.btn-sm  { padding: 6px 14px;  font-size: 0.8125rem; }
-.btn-md  { padding: 9px 18px;  font-size: 0.875rem;  }
-.btn-lg  { padding: 12px 24px; font-size: 1rem;      }
-.btn-xl  { padding: 14px 28px; font-size: 1.0625rem; }
+.btn-sm  { padding: 7px 16px;  font-size: 0.8125rem; }
+.btn-md  { padding: 10px 22px; font-size: 0.875rem;  }
+.btn-lg  { padding: 13px 28px; font-size: 1rem;      }
 
 /* ============================================================
-   INPUT BASE
+   INPUT FIELDS
    ============================================================ */
 .input {
   width: 100%;
   background: var(--bg-elevated);
   border: 1px solid var(--border-normal);
-  border-radius: 8px;
+  border-radius: 14px;
   color: var(--text-primary);
-  font-family: 'Inter', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.875rem;
-  padding: 10px 14px;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  padding: 11px 16px;
   outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .input::placeholder { color: var(--text-muted); }
 
 .input:focus {
-  border-color: var(--primary-500);
-  box-shadow: 0 0 0 3px rgba(91,77,255,0.2);
+  border-color: #ff2b75;
+  box-shadow: 0 0 0 3px rgba(255, 43, 117, 0.25);
 }
 
 /* ============================================================
-   BADGE
-   ============================================================ */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 3px 10px;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-
-.badge-primary { background: rgba(91,77,255,0.15); color: var(--primary-300); border: 1px solid rgba(91,77,255,0.25); }
-.badge-accent  { background: rgba(0,212,255,0.1);  color: var(--accent-300);  border: 1px solid rgba(0,212,255,0.2); }
-.badge-gold    { background: rgba(255,215,0,0.1);  color: var(--gold-300);    border: 1px solid rgba(255,215,0,0.2); }
-.badge-success { background: rgba(0,255,136,0.1);  color: #33ff99;            border: 1px solid rgba(0,255,136,0.2); }
-.badge-danger  { background: rgba(255,56,100,0.1); color: #ff6680;            border: 1px solid rgba(255,56,100,0.2); }
-
-/* ============================================================
-   PROGRESS BAR
-   ============================================================ */
-.progress-track {
-  width: 100%;
-  height: 6px;
-  background: var(--bg-elevated);
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--primary-600), var(--accent-400));
-  box-shadow: 0 0 10px rgba(91,77,255,0.4);
-  transition: width 0.5s var(--ease-out-expo);
-}
-
-/* ============================================================
-   PAGE LAYOUT
-   ============================================================ */
-.app-shell {
-  display: flex;
-  min-height: 100vh;
-  background: var(--bg-base);
-}
-
-.sidebar {
-  width: var(--sidebar-width);
-  min-height: 100vh;
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 200;
-  transition: width 0.3s var(--ease-out-expo);
-  display: flex;
-  flex-direction: column;
-}
-
-.sidebar.collapsed { width: var(--sidebar-collapsed); }
-
-.main-content {
-  margin-left: var(--sidebar-width);
-  min-height: 100vh;
-  transition: margin-left 0.3s var(--ease-out-expo);
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.main-content.expanded { margin-left: var(--sidebar-collapsed); }
-
-.topbar {
-  height: var(--topbar-height);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.page-container {
-  padding: 24px;
-  max-width: 1600px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-/* ============================================================
-   HEATMAP GRID
+   HEATMAP CELL
    ============================================================ */
 .heatmap-cell {
   width: 12px;
   height: 12px;
-  border-radius: 2px;
-  transition: transform 0.15s, box-shadow 0.15s;
+  border-radius: 3px;
+  transition: transform 0.15s;
 }
-
 .heatmap-cell:hover { transform: scale(1.4); }
 
 .heatmap-0 { background: var(--bg-elevated); }
-.heatmap-1 { background: rgba(91,77,255,0.2);  box-shadow: 0 0 4px rgba(91,77,255,0.1); }
-.heatmap-2 { background: rgba(91,77,255,0.4);  box-shadow: 0 0 6px rgba(91,77,255,0.2); }
-.heatmap-3 { background: rgba(91,77,255,0.65); box-shadow: 0 0 8px rgba(91,77,255,0.3); }
-.heatmap-4 { background: rgba(91,77,255,0.9);  box-shadow: 0 0 12px rgba(91,77,255,0.5); }
+.heatmap-1 { background: rgba(255, 43, 117, 0.25); }
+.heatmap-2 { background: rgba(255, 43, 117, 0.5); }
+.heatmap-3 { background: rgba(255, 43, 117, 0.75); }
+.heatmap-4 { background: #ff2b75; box-shadow: 0 0 10px rgba(255, 43, 117, 0.7); }
 
 /* ============================================================
-   COMMAND PALETTE
-   ============================================================ */
-.cmd-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(8px);
-  z-index: 800;
-}
-
-.cmd-box {
-  position: fixed;
-  top: 20%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(640px, 90vw);
-  max-height: 480px;
-  z-index: 900;
-  border-radius: 16px;
-  overflow: hidden;
-}
-
-/* ============================================================
-   LIFE SCORE GAUGE
+   LIFE SCORE NUMBER
    ============================================================ */
 .life-score-number {
-  font-family: 'Orbitron', monospace;
-  font-size: 3rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 3.2rem;
   font-weight: 800;
-  background: linear-gradient(135deg, var(--gold-300), var(--primary-400));
+  background: linear-gradient(135deg, #ffffff, #ff4d94);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   line-height: 1;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255, 43, 117, 0.3); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 43, 117, 0.6); }
+
+/* Backdrop modal */
+.cmd-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(13, 6, 20, 0.85);
+  backdrop-filter: blur(12px);
+  z-index: 800;
 }

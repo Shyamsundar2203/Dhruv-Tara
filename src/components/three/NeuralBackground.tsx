@@ -6,18 +6,10 @@ import * as THREE from "three";
 export default function NeuralBackground() {
   const mountRef = useRef<HTMLDivElement>(null);
   const animRef = useRef<number>(0);
-  const sceneRef = useRef<{
-    renderer: THREE.WebGLRenderer;
-    scene: THREE.Scene;
-    camera: THREE.PerspectiveCamera;
-    particles: THREE.Points;
-    lines: THREE.LineSegments;
-  } | null>(null);
 
   useEffect(() => {
     if (!mountRef.current) return;
 
-    // ── Scene Setup ───────────────────────────────────────────
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       70,
@@ -37,15 +29,14 @@ export default function NeuralBackground() {
     renderer.setClearColor(0x000000, 0);
     mountRef.current.appendChild(renderer.domElement);
 
-    // ── Particle System (Cosmic Purple & Cyber Cyan) ──────────
-    const PARTICLE_COUNT = 600;
+    // Particle System (Rose Pink & Neon Violet)
+    const PARTICLE_COUNT = 500;
     const positions = new Float32Array(PARTICLE_COUNT * 3);
     const colors = new Float32Array(PARTICLE_COUNT * 3);
-    const sizes = new Float32Array(PARTICLE_COUNT);
 
-    const color1 = new THREE.Color(0x5b4dff); // Cosmic Purple
-    const color2 = new THREE.Color(0x00d4ff); // Electric Cyan
-    const color3 = new THREE.Color(0xa855f7); // Deep Purple
+    const color1 = new THREE.Color(0xff2b75); // Hot Pink
+    const color2 = new THREE.Color(0xa855f7); // Neon Violet
+    const color3 = new THREE.Color(0x00d4ff); // Cyan Accent
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       positions[i * 3]     = (Math.random() - 0.5) * 20;
@@ -56,34 +47,31 @@ export default function NeuralBackground() {
       let c: THREE.Color;
       if (t < 0.5) c = color1.clone().lerp(color2, t * 2);
       else c = color2.clone().lerp(color3, (t - 0.5) * 2);
+
       colors[i * 3]     = c.r;
       colors[i * 3 + 1] = c.g;
       colors[i * 3 + 2] = c.b;
-
-      sizes[i] = Math.random() * 0.08 + 0.02;
     }
 
     const particleGeo = new THREE.BufferGeometry();
     particleGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
     particleGeo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-    particleGeo.setAttribute("size", new THREE.BufferAttribute(sizes, 1));
 
     const particleMat = new THREE.PointsMaterial({
-      size: 0.05,
+      size: 0.045,
       vertexColors: true,
       transparent: true,
-      opacity: 0.75,
+      opacity: 0.65,
       blending: THREE.AdditiveBlending,
-      sizeAttenuation: true,
     });
 
     const particles = new THREE.Points(particleGeo, particleMat);
     scene.add(particles);
 
-    // ── Connection Lines ──────────────────────────────────────
+    // Connection Lines
     const linePositions: number[] = [];
     const lineColors: number[] = [];
-    const CONNECTION_DIST = 3.5;
+    const CONNECTION_DIST = 3.2;
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       for (let j = i + 1; j < PARTICLE_COUNT; j++) {
@@ -93,7 +81,7 @@ export default function NeuralBackground() {
         const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
 
         if (dist < CONNECTION_DIST) {
-          const alpha = (1 - dist / CONNECTION_DIST) * 0.3;
+          const alpha = (1 - dist / CONNECTION_DIST) * 0.25;
           linePositions.push(
             positions[i*3], positions[i*3+1], positions[i*3+2],
             positions[j*3], positions[j*3+1], positions[j*3+2]
@@ -113,42 +101,32 @@ export default function NeuralBackground() {
     const lineMat = new THREE.LineBasicMaterial({
       vertexColors: true,
       transparent: true,
-      opacity: 0.45,
+      opacity: 0.35,
       blending: THREE.AdditiveBlending,
     });
 
     const lines = new THREE.LineSegments(lineGeo, lineMat);
     scene.add(lines);
 
-    sceneRef.current = { renderer, scene, camera, particles, lines };
-
-    // ── Mouse Parallax ────────────────────────────────────────
     let mouseX = 0, mouseY = 0;
     const onMouseMove = (e: MouseEvent) => {
-      mouseX = (e.clientX / window.innerWidth  - 0.5) * 0.5;
-      mouseY = (e.clientY / window.innerHeight - 0.5) * 0.5;
+      mouseX = (e.clientX / window.innerWidth  - 0.5) * 0.4;
+      mouseY = (e.clientY / window.innerHeight - 0.5) * 0.4;
     };
     window.addEventListener("mousemove", onMouseMove);
 
-    // ── Animation Loop ────────────────────────────────────────
     let t = 0;
     const animate = () => {
       animRef.current = requestAnimationFrame(animate);
       t += 0.003;
-
-      particles.rotation.y = t * 0.05 + mouseX * 0.3;
+      particles.rotation.y = t * 0.04 + mouseX * 0.2;
       particles.rotation.x = mouseY * 0.2;
-      lines.rotation.y     = t * 0.05 + mouseX * 0.3;
+      lines.rotation.y     = t * 0.04 + mouseX * 0.2;
       lines.rotation.x     = mouseY * 0.2;
-
-      (particleMat as THREE.PointsMaterial).opacity =
-        0.55 + Math.sin(t * 0.8) * 0.25;
-
       renderer.render(scene, camera);
     };
     animate();
 
-    // ── Resize ────────────────────────────────────────────────
     const onResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();

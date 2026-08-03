@@ -1,164 +1,119 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { format } from "date-fns";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface TopBarProps {
-  onMenuToggle: () => void;
-  onCommandPalette: () => void;
+  onOpenCommandPalette: () => void;
 }
 
-export default function TopBar({ onMenuToggle, onCommandPalette }: TopBarProps) {
-  const [time, setTime] = useState(new Date());
-  const [notifications] = useState(3);
+export default function TopBar({ onOpenCommandPalette }: TopBarProps) {
+  const [time, setTime] = useState<string>("");
+  const pathname = usePathname();
 
   useEffect(() => {
-    const interval = setInterval(() => setTime(new Date()), 1000);
+    setTime(format(new Date(), "HH:mm:ss"));
+    const interval = setInterval(() => {
+      setTime(format(new Date(), "HH:mm:ss"));
+    }, 1000);
     return () => clearInterval(interval);
   }, []);
 
-  const hours   = time.getHours().toString().padStart(2, "0");
-  const minutes = time.getMinutes().toString().padStart(2, "0");
-  const seconds = time.getSeconds().toString().padStart(2, "0");
+  const NAV_ITEMS = [
+    { label: "Home", href: "/dashboard" },
+    { label: "WalkWithMe", href: "/dashboard/daily" },
+    { label: "SmartMap", href: "/dashboard/tasks" },
+    { label: "Report", href: "/dashboard/analytics" },
+    { label: "Mission", href: "/dashboard/mission" },
+    { label: "Team", href: "/team" },
+  ];
 
   return (
     <header
-      className="topbar glass flex items-center justify-between px-6 border-b"
+      className="topbar glass px-6 flex items-center justify-between"
       style={{
-        borderColor: "var(--border-normal)",
-        position: "sticky",
-        top: 0,
-        zIndex: 100,
+        background: "rgba(13, 6, 20, 0.8)",
+        borderBottom: "1px solid rgba(255, 43, 117, 0.15)",
       }}
     >
-      {/* Left: Menu + Search */}
-      <div className="flex items-center gap-4">
-        <button
-          onClick={onMenuToggle}
-          className="btn btn-ghost btn-sm"
-          style={{ padding: "8px", border: "none" }}
-          title="Toggle menu"
-        >
-          <span style={{ color: "var(--text-secondary)" }}>☰</span>
-        </button>
-
-        {/* Search / Command Palette trigger */}
-        <motion.button
-          onClick={onCommandPalette}
-          className="flex items-center gap-3 rounded-lg px-4 py-2"
-          style={{
-            background: "var(--bg-elevated)",
-            border: "1px solid var(--border-normal)",
-            color: "var(--text-muted)",
-            fontSize: "0.875rem",
-            fontFamily: "var(--font-ui)",
-            cursor: "pointer",
-            minWidth: "220px",
-          }}
-          whileHover={{
-            borderColor: "var(--border-primary)",
-            color: "var(--text-secondary)",
-          }}
-          whileTap={{ scale: 0.98 }}
-        >
-          <span>🔍</span>
-          <span>Search everything...</span>
-          <kbd
-            className="ml-auto text-xs px-1.5 py-0.5 rounded"
-            style={{
-              background: "var(--bg-overlay)",
-              border: "1px solid var(--border-normal)",
-              fontFamily: "var(--font-mono)",
-              color: "var(--text-muted)",
-            }}
+      {/* Brand Logo matching screenshot */}
+      <div className="flex items-center gap-6">
+        <Link href="/" className="flex items-center gap-2" style={{ textDecoration: "none" }}>
+          <span className="text-xl" style={{ color: "#ff2b75" }}>✦</span>
+          <span
+            className="font-accent text-lg font-extrabold tracking-tight"
+            style={{ color: "white" }}
           >
-            ⌘K
-          </kbd>
-        </motion.button>
+            Dhruv<span style={{ color: "#ff4d94" }}>Tara</span>
+          </span>
+        </Link>
+
+        {/* Navigation Links matching screenshot */}
+        <nav className="hidden md:flex items-center gap-1 ml-4">
+          {NAV_ITEMS.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link key={item.href} href={item.href} style={{ textDecoration: "none" }}>
+                <span
+                  className="px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all"
+                  style={{
+                    color: isActive ? "#ff4d94" : "var(--text-secondary)",
+                    background: isActive ? "rgba(255, 43, 117, 0.12)" : "transparent",
+                    border: isActive ? "1px solid rgba(255, 43, 117, 0.25)" : "1px solid transparent",
+                  }}
+                >
+                  {item.label}
+                </span>
+              </Link>
+            );
+          })}
+        </nav>
       </div>
 
-      {/* Right: Clock + Notifications + Profile */}
-      <div className="flex items-center gap-4">
+      {/* Right Controls */}
+      <div className="flex items-center gap-3">
+        {/* Command Palette Trigger */}
+        <motion.button
+          onClick={onOpenCommandPalette}
+          className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs"
+          style={{
+            background: "var(--bg-elevated)",
+            border: "1px solid rgba(255, 43, 117, 0.2)",
+            color: "var(--text-muted)",
+          }}
+          whileHover={{ scale: 1.02 }}
+        >
+          <span>🔍</span>
+          <span className="font-mono text-[0.7rem]">⌘K</span>
+        </motion.button>
+
         {/* Live Clock */}
         <div
-          className="font-mono text-sm hidden sm:flex items-center gap-1"
-          style={{ color: "var(--text-secondary)" }}
+          className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono"
+          style={{
+            background: "rgba(255, 43, 117, 0.08)",
+            border: "1px solid rgba(255, 43, 117, 0.2)",
+            color: "#ff80ab",
+          }}
         >
-          <span style={{ color: "var(--text-muted)", fontSize: "0.7rem" }}>
-            {format(time, "EEE, MMM d")}
-          </span>
-          <span className="mx-2" style={{ color: "var(--border-strong)" }}>|</span>
-          <span style={{ color: "var(--primary-300)", fontFamily: "var(--font-mono)" }}>
-            {hours}
-          </span>
-          <span
-            style={{
-              color: "var(--text-muted)",
-              animation: "pulse-glow 1s ease-in-out infinite",
-            }}
-          >
-            :
-          </span>
-          <span style={{ color: "var(--primary-300)", fontFamily: "var(--font-mono)" }}>
-            {minutes}
-          </span>
-          <span style={{ color: "var(--text-muted)", fontFamily: "var(--font-mono)", fontSize: "0.7rem" }}>
-            :{seconds}
-          </span>
+          <span>⏱</span>
+          <span>{time}</span>
         </div>
 
-        {/* Notifications */}
-        <motion.button
-          className="relative btn btn-ghost btn-sm"
-          style={{ padding: "8px", border: "none" }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          title="Notifications"
-        >
-          <span style={{ fontSize: "1.1rem" }}>🔔</span>
-          {notifications > 0 && (
-            <motion.span
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              className="absolute -top-1 -right-1 w-4 h-4 rounded-full text-xs flex items-center justify-center font-bold"
-              style={{
-                background: "var(--danger)",
-                color: "white",
-                fontSize: "0.6rem",
-                boxShadow: "0 0 8px var(--danger)",
-              }}
-            >
-              {notifications}
-            </motion.span>
-          )}
-        </motion.button>
-
-        {/* AI Quick Chat */}
-        <motion.button
-          className="btn btn-primary btn-sm hidden sm:flex"
-          style={{ gap: "6px" }}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          <span>🤖</span>
-          <span>JARVIS</span>
-        </motion.button>
-
-        {/* Avatar */}
-        <motion.div
-          className="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer font-bold text-sm"
-          style={{
-            background: "linear-gradient(135deg, var(--primary-600), var(--accent-400))",
-            boxShadow: "0 0 16px rgba(91,77,255,0.4)",
-            color: "white",
-            fontFamily: "var(--font-ui)",
-          }}
-          whileHover={{ scale: 1.08, boxShadow: "0 0 24px rgba(91,77,255,0.6)" }}
-          whileTap={{ scale: 0.95 }}
-        >
-          D
-        </motion.div>
+        {/* Hot Pink Pill Button matching screenshot */}
+        <Link href="/dashboard/settings" style={{ textDecoration: "none" }}>
+          <motion.button
+            className="btn btn-primary btn-sm"
+            style={{ borderRadius: "9999px" }}
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.96 }}
+          >
+            Settings / Login
+          </motion.button>
+        </Link>
       </div>
     </header>
   );

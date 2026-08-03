@@ -19,190 +19,134 @@ export default function LandingPage() {
       <NeuralBackground />
 
       <div
-        className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
+        className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-6 text-center"
         style={{ zIndex: 1 }}
       >
-        {/* Scan line effect */}
-        <div
-          style={{
-            position: "fixed",
-            top: 0, left: 0, right: 0,
-            height: "2px",
-            background: "linear-gradient(90deg, transparent, rgba(91,77,255,0.8), transparent)",
-            animation: "scan-line 4s linear infinite",
-            zIndex: 0,
-            pointerEvents: "none",
-          }}
-        />
-
-        {/* Center Content */}
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-          {/* Status badge */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            className="inline-flex items-center gap-2 mb-8"
-          >
-            <div
-              className="w-2 h-2 rounded-full"
-              style={{
-                background: "var(--success)",
-                boxShadow: "0 0 8px var(--success)",
-                animation: "pulse-glow 2s infinite",
-              }}
-            />
-            <span
-              className="text-xs font-semibold tracking-widest uppercase"
-              style={{ color: "var(--success)", fontFamily: "var(--font-mono)" }}
-            >
-              System Online • All Systems Operational
+        {/* Top Navbar Header matching screenshot */}
+        <header
+          className="fixed top-0 left-0 right-0 h-16 px-8 flex items-center justify-between z-50 glass"
+          style={{ background: "rgba(13, 6, 20, 0.85)", borderBottom: "1px solid rgba(255,43,117,0.15)" }}
+        >
+          <div className="flex items-center gap-2">
+            <span className="text-xl" style={{ color: "#ff2b75" }}>✦</span>
+            <span className="font-accent text-lg font-extrabold text-white">
+              Dhruv<span style={{ color: "#ff4d94" }}>Tara</span>
             </span>
-          </motion.div>
+          </div>
 
-          {/* Main Title */}
+          <div className="hidden md:flex items-center gap-6 text-xs font-semibold" style={{ color: "var(--text-secondary)" }}>
+            <button onClick={() => router.push("/dashboard")} className="hover:text-white transition-colors cursor-pointer">Home</button>
+            <button onClick={() => router.push("/dashboard/daily")} className="hover:text-white transition-colors cursor-pointer">WalkWithMe</button>
+            <button onClick={() => router.push("/dashboard/tasks")} className="hover:text-white transition-colors cursor-pointer">SmartMap</button>
+            <button onClick={() => router.push("/dashboard/analytics")} className="hover:text-white transition-colors cursor-pointer">Report</button>
+          </div>
+
+          <button
+            onClick={() => router.push("/dashboard")}
+            className="btn btn-primary btn-sm"
+          >
+            Login / Access
+          </button>
+        </header>
+
+        {/* Hero Section matching exact screenshot */}
+        <div className="max-w-4xl mx-auto pt-24 pb-12 flex flex-col items-center">
+          {/* Badge matching screenshot */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: -15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-4"
+            className="inline-flex items-center gap-2 px-4 py-1 rounded-full text-xs font-semibold tracking-wider uppercase mb-8"
+            style={{
+              background: "rgba(255, 43, 117, 0.1)",
+              border: "1px solid rgba(255, 43, 117, 0.3)",
+              color: "#ff80ab",
+              fontFamily: "var(--font-mono)",
+            }}
           >
-            <h1
-              className="font-display font-black leading-none mb-2"
-              style={{
-                fontSize: "clamp(3rem, 10vw, 7rem)",
-                background: "linear-gradient(135deg, #f0f0ff 0%, #a5a0ff 40%, #00d4ff 70%, #5b4dff 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-                textShadow: "none",
-                letterSpacing: "-0.03em",
-              }}
-            >
-              DHRUV
-            </h1>
-            <h1
-              className="font-display font-black leading-none"
-              style={{
-                fontSize: "clamp(3rem, 10vw, 7rem)",
-                background: "linear-gradient(135deg, #5b4dff 0%, #00d4ff 50%, #ffd700 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-                letterSpacing: "-0.03em",
-              }}
-            >
-              TARA
-            </h1>
+            <span className="w-2 h-2 rounded-full" style={{ background: "#ff2b75" }} />
+            <span>OPERATION DHRUV TARA • SOVEREIGN OS</span>
           </motion.div>
 
+          {/* Main Title matching screenshot */}
+          <motion.h1
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="font-display font-extrabold text-white leading-tight mb-6"
+            style={{ fontSize: "clamp(2.5rem, 7vw, 5.5rem)", letterSpacing: "-0.02em" }}
+          >
+            Navigate the World With{" "}
+            <span style={{ color: "#ff2b75", textShadow: "0 0 30px rgba(255,43,117,0.6)" }}>
+              Confidence
+            </span>
+          </motion.h1>
+
+          {/* Subtitle matching screenshot */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.7, duration: 0.5 }}
-            className="text-xl mb-2 font-accent"
-            style={{ color: "var(--text-secondary)", letterSpacing: "0.3em" }}
+            transition={{ delay: 0.4 }}
+            className="text-base sm:text-lg mb-10 max-w-2xl leading-relaxed"
+            style={{ color: "var(--text-secondary)" }}
           >
-            MISSION CONTROL OPERATING SYSTEM
+            The AI-powered safety and growth companion that guides you through high-impact paths, builds your AI career, and keeps your 2030 mission informed.
           </motion.p>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.9, duration: 0.5 }}
-            className="text-sm mb-12 font-mono"
-            style={{ color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}
-          >
-            v1.0.0 • SPRINT 0 • AI-POWERED PERSONAL OS
-          </motion.p>
-
-          {/* CTA Buttons */}
+          {/* CTA Pill Buttons matching screenshot */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.1, duration: 0.5 }}
-            className="flex flex-wrap items-center justify-center gap-4"
+            transition={{ delay: 0.6 }}
+            className="flex flex-wrap items-center justify-center gap-4 mb-16"
           >
-            <motion.button
+            <button
               onClick={() => router.push("/dashboard")}
-              className="btn btn-primary btn-xl"
-              style={{
-                fontSize: "1rem",
-                fontFamily: "var(--font-display)",
-                letterSpacing: "0.05em",
-                background: "linear-gradient(135deg, var(--primary-700), var(--primary-500), var(--accent-400))",
-                boxShadow: "0 8px 40px rgba(91,77,255,0.4), 0 0 60px rgba(91,77,255,0.2)",
-                border: "1px solid rgba(91,77,255,0.5)",
-              }}
-              whileHover={{
-                scale: 1.03,
-                boxShadow: "0 12px 60px rgba(91,77,255,0.6), 0 0 80px rgba(91,77,255,0.3)",
-              }}
-              whileTap={{ scale: 0.97 }}
+              className="btn btn-primary btn-lg"
             >
-              ⚡ ENTER MISSION CONTROL
-            </motion.button>
+              Get Started →
+            </button>
 
-            <motion.button
-              onClick={() => router.push("/team")}
-              className="btn btn-ghost btn-xl"
-              style={{ fontSize: "1rem", fontFamily: "var(--font-display)", letterSpacing: "0.05em" }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.97 }}
+            <button
+              onClick={() => router.push("/dashboard/daily")}
+              className="btn btn-ghost btn-lg"
             >
-              🤖 MEET THE TEAM
-            </motion.button>
+              Walk With Me
+            </button>
           </motion.div>
 
-          {/* Stats Bar */}
+          {/* Card Preview matching screenshot */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.4, duration: 0.5 }}
-            className="mt-16 flex flex-wrap justify-center gap-8"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.8 }}
+            className="glass rounded-3xl p-6 w-full max-w-md border text-left"
+            style={{ borderColor: "rgba(255, 43, 117, 0.2)" }}
           >
-            {[
-              { label: "Modules",    value: "15+",  icon: "🗂️" },
-              { label: "AI Members", value: "9",    icon: "🤖" },
-              { label: "Days to 2030", value: `${Math.floor((new Date("2030-01-01").getTime() - Date.now()) / 86400000).toLocaleString()}`, icon: "⏳" },
-              { label: "Mission",    value: "Active", icon: "🎯" },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-2xl mb-1">{stat.icon}</div>
-                <div
-                  className="font-display font-bold text-lg"
-                  style={{
-                    color: "var(--primary-400)",
-                    fontFamily: "var(--font-mono)",
-                    textShadow: "0 0 16px rgba(91,77,255,0.4)",
-                  }}
-                >
-                  {stat.value}
-                </div>
-                <div className="text-xs" style={{ color: "var(--text-muted)" }}>
-                  {stat.label}
-                </div>
+            <div className="w-full h-40 rounded-2xl p-4 flex flex-col justify-between mb-4 relative overflow-hidden" style={{ background: "rgba(255, 43, 117, 0.08)", border: "1px dashed rgba(255, 43, 117, 0.3)" }}>
+              {/* Route line effect matching screenshot */}
+              <svg className="absolute inset-0 w-full h-full" style={{ pointerEvents: "none" }}>
+                <path d="M 30 120 Q 180 20 330 30" fill="none" stroke="#ff2b75" strokeWidth="3" strokeDasharray="6,6" />
+                <circle cx="330" cy="30" r="6" fill="#ff2b75" />
+                <circle cx="30" cy="120" r="6" fill="#ff2b75" />
+              </svg>
+              <div className="relative z-10 flex justify-between items-center text-xs font-mono text-muted">
+                <span>SYSTEM STATUS</span>
+                <span className="text-success font-bold">98% OPTIMAL</span>
               </div>
-            ))}
+              <div className="relative z-10">
+                <p className="text-sm font-bold text-white">Active Route: Mission 2030 Singularity</p>
+                <p className="text-xs text-muted">All 15 Operational Modules Active</p>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between text-xs">
+              <span style={{ color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>JARVIS OS • Online</span>
+              <button onClick={() => router.push("/team")} className="text-xs text-accent hover:underline">
+                🤖 Speak with AI Team →
+              </button>
+            </div>
           </motion.div>
         </div>
-
-        {/* Bottom Grid Lines */}
-        <div
-          className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
-          style={{
-            background: "linear-gradient(0deg, rgba(91,77,255,0.05) 0%, transparent 100%)",
-            backgroundImage: `
-              repeating-linear-gradient(
-                90deg,
-                transparent,
-                transparent calc(100%/12 - 1px),
-                rgba(91,77,255,0.08) calc(100%/12 - 1px),
-                rgba(91,77,255,0.08) calc(100%/12)
-              )
-            `,
-          }}
-        />
       </div>
     </>
   );
