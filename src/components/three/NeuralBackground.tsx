@@ -37,15 +37,15 @@ export default function NeuralBackground() {
     renderer.setClearColor(0x000000, 0);
     mountRef.current.appendChild(renderer.domElement);
 
-    // ── Particle System (Neon Emerald & Cyber Green) ─────────
+    // ── Particle System (Cosmic Purple & Cyber Cyan) ──────────
     const PARTICLE_COUNT = 600;
     const positions = new Float32Array(PARTICLE_COUNT * 3);
     const colors = new Float32Array(PARTICLE_COUNT * 3);
     const sizes = new Float32Array(PARTICLE_COUNT);
 
-    const color1 = new THREE.Color(0x00ff88); // Neon Green
+    const color1 = new THREE.Color(0x5b4dff); // Cosmic Purple
     const color2 = new THREE.Color(0x00d4ff); // Electric Cyan
-    const color3 = new THREE.Color(0x00e676); // Emerald
+    const color3 = new THREE.Color(0xa855f7); // Deep Purple
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       positions[i * 3]     = (Math.random() - 0.5) * 20;
